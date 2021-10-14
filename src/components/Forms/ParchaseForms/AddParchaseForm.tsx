@@ -59,7 +59,7 @@ const AddParchaseForm: React.FC = () => {
 			method: "recieved",
 		},
 	];
-
+	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
@@ -78,6 +78,7 @@ const AddParchaseForm: React.FC = () => {
 		});
 		setproduct(null);
 	};
+	// handle submit Function
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -92,30 +93,22 @@ const AddParchaseForm: React.FC = () => {
 				console.log(error.response);
 			});
 	};
+	// get search string Function
 	const searchFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
 	};
+	// search on enter
 	const seachonKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.code === "Enter") {
-			apiClient()
-				.get(`${BACKENDAPI}/v1.0/products/search/${search}`)
-				.then((response: any) => {
-					console.log(response);
-					const { product } = response.data;
-					setproduct(product);
-					setFormData({ ...formData, rProductId: product.id });
-				})
-				.catch((error) => {
-					console.log(error.response);
-					setproduct(null);
-					setFormData({ ...formData, rProductId: "" });
-					if (error.response.status === 404) {
-						toast("np product found");
-					}
-				});
+			searchProduct();
 		}
 	};
+	// search on focus change
 	const seachOnBlur = () => {
+		searchProduct();
+	};
+	// product search logic
+	const searchProduct = () => {
 		apiClient()
 			.get(`${BACKENDAPI}/v1.0/products/search/${search}`)
 			.then((response: any) => {
@@ -252,7 +245,7 @@ const AddParchaseForm: React.FC = () => {
 					Amount
 				</label>
 				<input
-					type="text"
+					type="number"
 					className="form-control"
 					id="rAmount"
 					name="rAmount"

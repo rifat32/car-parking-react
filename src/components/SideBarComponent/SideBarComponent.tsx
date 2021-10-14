@@ -40,7 +40,7 @@ const SideBarComponent = () => {
 						);
 					})}
 
-					<li className="nav-item">
+					{/* <li className="nav-item">
 						<a className="nav-link" href="index.html">
 							<i className="bi bi-grid" />
 							<span>Dashboard</span>
@@ -281,8 +281,9 @@ const SideBarComponent = () => {
 								</a>
 							</li>
 						</ul>
-					</li>
-					<li className="nav-heading">Pages</li>
+					</li> */}
+					{/* aaaaaaaaaaaaaaaaaaaaaaaaaaa */}
+					{/* <li className="nav-heading">Pages</li>
 					<li className="nav-item">
 						<a className="nav-link collapsed" href="users-profile.html">
 							<i className="bi bi-person" />
@@ -324,7 +325,7 @@ const SideBarComponent = () => {
 							<i className="bi bi-file-earmark" />
 							<span>Blank</span>
 						</a>
-					</li>
+					</li> */}
 				</ul>
 			</aside>
 		</>

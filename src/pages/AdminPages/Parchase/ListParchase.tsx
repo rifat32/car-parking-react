@@ -1,7 +1,7 @@
 import React from "react";
-import AdminPageComponent from "../../../components/AdminPageComponent/AdminPageComponent";
+import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 
-import ParchasesPageComponent from "../../../components/AdminPageComponent/AdminParchaseComponent/ParchasesPageComponent";
+import ParchasesPageComponent from "../../../components/PageComponent/ParchaseComponent/ParchasesPageComponent";
 
 const ListParchasePage: React.FC = () => {
 	return (

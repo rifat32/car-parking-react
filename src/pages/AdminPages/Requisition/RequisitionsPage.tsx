@@ -1,6 +1,6 @@
 import React from "react";
-import AdminPageComponent from "../../../components/AdminPageComponent/AdminPageComponent";
-import RequisitionsPageComponent from "../../../components/AdminPageComponent/AdminRequisitionComponent/RequisitionsPageComponent";
+import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
+import RequisitionsPageComponent from "../../../components/PageComponent/RequisitionComponent/RequisitionsPageComponent";
 
 const RequisitionsPage: React.FC = () => {
 	return (

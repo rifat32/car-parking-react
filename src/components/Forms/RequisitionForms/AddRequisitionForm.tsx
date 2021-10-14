@@ -78,6 +78,7 @@ const AddRequisitionForm: React.FC = () => {
 		});
 		setproduct(null);
 	};
+	// handle submit Function
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -92,29 +93,38 @@ const AddRequisitionForm: React.FC = () => {
 				console.log(error.response);
 			});
 	};
+	// get search string Function
 	const searchFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
 	};
-	const seachProduct = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		console.log(e.code);
+	// search on enter
+	const searchOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.code === "Enter") {
-			apiClient()
-				.get(`${BACKENDAPI}/v1.0/products/search/${search}`)
-				.then((response: any) => {
-					console.log(response);
-					const { product } = response.data;
-					setproduct(product);
-					setFormData({ ...formData, rProductId: product.id });
-				})
-				.catch((error) => {
-					console.log(error.response);
-					setproduct(null);
-					setFormData({ ...formData, rProductId: "" });
-					if (error.response.status === 404) {
-						toast("np product found");
-					}
-				});
+			searchProduct();
 		}
+	};
+	// search on focus change
+	const searchOnBlur = () => {
+		searchProduct();
+	};
+	// product search logic
+	const searchProduct = () => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/products/search/${search}`)
+			.then((response: any) => {
+				console.log(response);
+				const { product } = response.data;
+				setproduct(product);
+				setFormData({ ...formData, rProductId: product.id });
+			})
+			.catch((error) => {
+				console.log(error.response);
+				setproduct(null);
+				setFormData({ ...formData, rProductId: "" });
+				if (error.response.status === 404) {
+					toast("np product found");
+				}
+			});
 	};
 
 	return (
@@ -191,7 +201,8 @@ const AddRequisitionForm: React.FC = () => {
 						aria-label="search"
 						onChange={searchFunc}
 						value={search}
-						onKeyDown={seachProduct}
+						onKeyDown={searchOnKeyDown}
+						onBlur={searchOnBlur}
 						placeholder="search product by name"
 					/>
 					{/* <button
@@ -234,7 +245,7 @@ const AddRequisitionForm: React.FC = () => {
 					Amount
 				</label>
 				<input
-					type="text"
+					type="number"
 					className="form-control"
 					id="rAmount"
 					name="rAmount"

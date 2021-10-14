@@ -1,6 +1,6 @@
 import React from "react";
-import AdminPageComponent from "../../../components/AdminPageComponent/AdminPageComponent";
-import ListProductsPageComponent from "../../../components/AdminPageComponent/AdminProductComponent/ListProductsPageComponent";
+import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
+import ListProductsPageComponent from "../../../components/PageComponent/ProductComponent/ListProductsPageComponent";
 
 const ProductsList: React.FC = () => {
 	return (

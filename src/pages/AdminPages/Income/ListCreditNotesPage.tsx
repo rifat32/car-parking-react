@@ -1,21 +1,21 @@
 import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
-import AddRequisitionForm from "../../../components/Forms/RequisitionForms/AddRequisitionForm";
+import CreditNotesPageComponent from "../../../components/PageComponent/IncomeComponent/CreditNotesPageComponent";
 
-const AddRequisitionPage: React.FC = () => {
+const ListCreditNotesPage: React.FC = () => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>Add Requisition</h1>
+					<h1>List Cretit Notes</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Requisition</li>
+							<li className="breadcrumb-item">Income</li>
 							<li className="breadcrumb-item active">
-								Requisitions Create
+								List Credit Note
 							</li>
 						</ol>
 					</nav>
@@ -26,8 +26,8 @@ const AddRequisitionPage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">Add Requisition</h5>
-									<AddRequisitionForm />
+									<h5 className="card-title">All Credit Notes</h5>
+									<CreditNotesPageComponent />
 								</div>
 							</div>
 						</div>
@@ -38,4 +38,4 @@ const AddRequisitionPage: React.FC = () => {
 	);
 };
 
-export default AddRequisitionPage;
+export default ListCreditNotesPage;

@@ -142,7 +142,7 @@ const AddProductForm: React.FC = () => {
 					Alert quantity
 				</label>
 				<input
-					type="text"
+					type="number"
 					className="form-control"
 					id="pQuantity"
 					name="pQuantity"
@@ -155,7 +155,7 @@ const AddProductForm: React.FC = () => {
 					Price
 				</label>
 				<input
-					type="text"
+					type="number"
 					className="form-control"
 					id="pPrice"
 					name="pPrice"

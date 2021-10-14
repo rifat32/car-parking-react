@@ -85,7 +85,7 @@ const RequisitionsPageComponent: React.FC = () => {
 											className="btn 
 										btn-sm
 										btn-primary ">
-											Move to Parchase
+											Approve to Parchase
 										</button>
 									</td>
 								</tr>

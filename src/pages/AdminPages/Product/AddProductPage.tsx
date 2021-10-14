@@ -1,5 +1,5 @@
 import React from "react";
-import AdminPageComponent from "../../../components/AdminPageComponent/AdminPageComponent";
+import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import AddProductForm from "../../../components/Forms/ProductForms/AddProductForm";
 
 const AddProduct: React.FC = () => {

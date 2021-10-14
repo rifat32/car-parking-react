@@ -11,6 +11,18 @@ import AddRequisition from "../pages/AdminPages/Requisition/AddRequisitionPage";
 import RequisitionsPage from "../pages/AdminPages/Requisition/RequisitionsPage";
 import AddParchasePage from "../pages/AdminPages/Parchase/AddParchasePage";
 import ListParchasePage from "../pages/AdminPages/Parchase/ListParchase";
+import AddRevenuePage from "../pages/AdminPages/Income/AddRevenuePage";
+import ListRevenuePage from "../pages/AdminPages/Income/ListRevenuePage";
+import AddCreditNotePage from "../pages/AdminPages/Income/AddCreditNotePage";
+import ListCreditNotesPage from "../pages/AdminPages/Income/ListCreditNotesPage";
+import CreateBillPage from "../pages/AdminPages/Expense/AddBillPage";
+import ListBillsPage from "../pages/AdminPages/Expense/ListBillsPage";
+import CreatePaymentPage from "../pages/AdminPages/Expense/AddPaymentPage";
+import ListPaymentPage from "../pages/AdminPages/Expense/ListPaymentPage";
+import CreateDebitNotePage from "../pages/AdminPages/Expense/AddDebitNotePage";
+import ListDebitNotesPage from "../pages/AdminPages/Expense/ListDebitNotesPage";
+import CreateWingPage from "../pages/AdminPages/MasterSetup/AddWingPage";
+import ListWingsPage from "../pages/AdminPages/MasterSetup/ListWingsPage";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -38,6 +50,18 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: Admin,
 	},
+	// wings
+	{
+		path: "/admin/wings/create",
+		exact: false,
+		component: CreateWingPage,
+	},
+	{
+		path: "/admin/wings",
+		exact: true,
+		component: ListWingsPage,
+	},
+	// products
 	{
 		path: "/admin/products/create",
 		exact: false,
@@ -53,6 +77,7 @@ export const RouteData: RouteInterface[] = [
 		exact: false,
 		component: BrandPage,
 	},
+	// Requisitions
 	{
 		path: "/admin/requisitions/create",
 		exact: false,
@@ -63,8 +88,9 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: RequisitionsPage,
 	},
+	// Parchases
 	{
-		path: "/admin/parchase/create",
+		path: "/admin/parchases/create",
 		exact: false,
 		component: AddParchasePage,
 	},
@@ -72,5 +98,57 @@ export const RouteData: RouteInterface[] = [
 		path: "/admin/parchases",
 		exact: true,
 		component: ListParchasePage,
+	},
+	// Incomes
+	{
+		path: "/admin/revenues/create",
+		exact: false,
+		component: AddRevenuePage,
+	},
+	{
+		path: "/admin/revenues",
+		exact: true,
+		component: ListRevenuePage,
+	},
+	{
+		path: "/admin/credits/create",
+		exact: false,
+		component: AddCreditNotePage,
+	},
+	{
+		path: "/admin/credits",
+		exact: true,
+		component: ListCreditNotesPage,
+	},
+	// expense
+	{
+		path: "/admin/bills/create",
+		exact: false,
+		component: CreateBillPage,
+	},
+	{
+		path: "/admin/bills",
+		exact: true,
+		component: ListBillsPage,
+	},
+	{
+		path: "/admin/payments/create",
+		exact: false,
+		component: CreatePaymentPage,
+	},
+	{
+		path: "/admin/payments",
+		exact: true,
+		component: ListPaymentPage,
+	},
+	{
+		path: "/admin/debitNotes/create",
+		exact: false,
+		component: CreateDebitNotePage,
+	},
+	{
+		path: "/admin/debitNotes",
+		exact: true,
+		component: ListDebitNotesPage,
 	},
 ];

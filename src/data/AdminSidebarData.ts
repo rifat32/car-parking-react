@@ -1,6 +1,19 @@
 import { NavInterface } from "../interfaces/AdminSideBarInterface";
 export const adminSideBarData: NavInterface[] = [
 	{
+		name: "Master Setup",
+		list: [
+			{
+				name: "Wing",
+				link: "/admin/wings",
+			},
+			{
+				name: "Create Wings",
+				link: "/admin/wings/create",
+			},
+		],
+	},
+	{
 		name: "Product",
 		list: [
 			{
@@ -39,7 +52,57 @@ export const adminSideBarData: NavInterface[] = [
 			},
 			{
 				name: "Parchase Create",
-				link: "/admin/parchase/create",
+				link: "/admin/parchases/create",
+			},
+		],
+	},
+	{
+		name: "Income",
+		list: [
+			{
+				name: "List Revenue",
+				link: "/admin/revenues",
+			},
+			{
+				name: "Revenue Create",
+				link: "/admin/revenues/create",
+			},
+			{
+				name: "List Credit Note",
+				link: "/admin/credits",
+			},
+			{
+				name: "Credit Note Create",
+				link: "/admin/credits/create",
+			},
+		],
+	},
+	{
+		name: "Expense",
+		list: [
+			{
+				name: "Bill",
+				link: "/admin/bills",
+			},
+			{
+				name: "Bill Create",
+				link: "/admin/bills/create",
+			},
+			{
+				name: "Payment",
+				link: "/admin/payments",
+			},
+			{
+				name: "Payment Create",
+				link: "/admin/payments/create",
+			},
+			{
+				name: "Debit Note",
+				link: "/admin/debitNotes",
+			},
+			{
+				name: "Debit Note Create",
+				link: "/admin/debitNotes/create",
 			},
 		],
 	},
