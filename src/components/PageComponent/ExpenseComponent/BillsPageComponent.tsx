@@ -27,6 +27,7 @@ const BillsPageComponent: React.FC = () => {
 			<table className="table">
 				<thead>
 					<tr>
+						<th scope="col">Wing</th>
 						<th scope="col">Vendor</th>
 						<th scope="col">Bill Date</th>
 						<th scope="col">Due Date</th>
@@ -51,12 +52,13 @@ const BillsPageComponent: React.FC = () => {
 						{bills.map((el: any) => {
 							return (
 								<tr key={el.id}>
+									<td>{el.wing.name}</td>
 									<td>{el.vendor}</td>
-									<td>{el.billDate}</td>
-									<td>{el.dueDate}</td>
+									<td>{el.bill_date}</td>
+									<td>{el.due_date}</td>
 									<td>{el.category}</td>
-									<td>{el.orderNumber}</td>
-									<td>{el.discountApply}</td>
+									<td>{el.order_number}</td>
+									<td>{el.discount_apply ? "true" : "false"}</td>
 								</tr>
 							);
 						})}

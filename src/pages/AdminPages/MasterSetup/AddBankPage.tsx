@@ -1,20 +1,21 @@
 import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import AddWingForm from "../../../components/Forms/MasterSetupForms/AddWingsForm";
+import AddBankForm from "../../../components/Forms/MasterSetupForms/AddBankForm";
 
-const CreateWingPage: React.FC = () => {
+const CreateBankPage: React.FC = () => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>Create Wing</h1>
+					<h1>Create Bank</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
 							<li className="breadcrumb-item">Master Setup</li>
-							<li className="breadcrumb-item active">Create Wing</li>
+							<li className="breadcrumb-item active">Create Bank</li>
 						</ol>
 					</nav>
 				</div>
@@ -24,8 +25,8 @@ const CreateWingPage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">Create Wing</h5>
-									<AddWingForm />
+									<h5 className="card-title">Create Bank</h5>
+									<AddBankForm />
 								</div>
 							</div>
 						</div>
@@ -36,4 +37,4 @@ const CreateWingPage: React.FC = () => {
 	);
 };
 
-export default CreateWingPage;
+export default CreateBankPage;

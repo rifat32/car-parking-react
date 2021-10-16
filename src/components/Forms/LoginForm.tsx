@@ -34,7 +34,7 @@ const LoginForm: React.FC = (props: any) => {
 			.then((response: any) => {
 				console.log(response.data);
 				localStorage.setItem("token", response.data.token);
-				toast("Login Successfull.");
+				toast.success("Login Successfull.");
 				setUserFunction(response.data.user);
 				setLoading(false);
 				setUserLoadingFunction(false);

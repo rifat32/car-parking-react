@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BACKENDAPI } from "../../../data/config";
 import { apiClient } from "../../../utils/apiClient";
+import { toast } from "react-toastify";
 
 const DebitNotesPageComponent: React.FC = () => {
 	const [debitNotes, setDebitNotes] = useState([]);
@@ -8,10 +9,10 @@ const DebitNotesPageComponent: React.FC = () => {
 		`${BACKENDAPI}/v1.0/debit-notes`
 	);
 	useEffect(() => {
-		loadProducts();
+		loadDebitNotes();
 	}, []);
 	// pagination required
-	const loadProducts = () => {
+	const loadDebitNotes = () => {
 		apiClient()
 			.get(currentLink)
 			.then((response: any) => {
@@ -22,35 +23,72 @@ const DebitNotesPageComponent: React.FC = () => {
 				console.log(error.response);
 			});
 	};
+	const ApproveFunc = (id: number) => {
+		apiClient()
+			.put(`${BACKENDAPI}/v1.0/debit-notes/approve`, {
+				id: id,
+			})
+			.then((response: any) => {
+				toast.success("debit note approved");
+				const tempRevenue: any = debitNotes.map((el: any) => {
+					if (el.id === id) {
+						el.status = 1;
+					}
+					return el;
+				});
+				setDebitNotes(tempRevenue);
 
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
 	return (
 		<>
 			<table className="table">
 				<thead>
 					<tr>
-						<th scope="col">bill</th>
-						<th scope="col">amount</th>
-						<th scope="col">date</th>
-						<th scope="col">description</th>
+						<th scope="col">Wing</th>
+						<th scope="col">Vendor</th>
+						<th scope="col">Bill</th>
+						<th scope="col">Amount</th>
+						<th scope="col">Date</th>
+						<th scope="col">Description</th>
+						<th scope="col">Status</th>
+						<th scope="col">Action</th>
 					</tr>
 				</thead>
-				{/* 
-		// {
-            //     "bill": "dgefagarfe",
-            //     "amount": "100",
-            //     "date": "2021-10-14",
-            //     "description": "dfghdfg dfgh gfh gf sgjgfr rtgh rfgh strgtrfgh srgjsrf j rstjrstj yyghj"
-            // }
-		*/}
+
 				{debitNotes.length ? (
 					<tbody>
 						{debitNotes.map((el: any) => {
 							return (
 								<tr key={el.id}>
-									<td>{`#bill0000${el.id}`}</td>
+									<td>{el.wing.name}</td>
+									<td>{el.bill.vendor}</td>
+									<td>{`#bill0000${el.bill_id}`}</td>
 									<td>{el.amount}</td>
 									<td>{el.date}</td>
 									<td>{el.description}</td>
+									<td>{el.status ? "approved" : "pending"}</td>
+									<td>
+										<div className="dropdown">
+											<span className="btn btn-primary btn-sm">
+												Action
+											</span>
+											<div className="dropdown-content">
+												<div className="d-grid gap-2">
+													<button
+														className="btn d_btn btn-sm"
+														type="button"
+														onClick={() => ApproveFunc(el.id)}>
+														Approve
+													</button>
+												</div>
+											</div>
+										</div>
+									</td>
 								</tr>
 							);
 						})}

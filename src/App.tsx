@@ -19,6 +19,7 @@ import AddProductPage from "./pages/AdminPages/Product/AddProductPage";
 import BrandPage from "./pages/AdminPages/Product/Brand/BrandPage";
 import ListProductPage from "./pages/AdminPages/Product/ListProductPage";
 import { RouteData } from "./data/RoutesData";
+import "./app.css";
 
 const App: React.FC = () => {
 	const {

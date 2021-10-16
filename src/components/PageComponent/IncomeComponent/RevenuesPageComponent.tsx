@@ -9,15 +9,37 @@ const RevenuesPageComponent: React.FC = () => {
 		`${BACKENDAPI}/v1.0/revenues`
 	);
 	useEffect(() => {
-		loadProducts();
+		loadRevenues();
 	}, []);
 	// pagination required
-	const loadProducts = () => {
+	const loadRevenues = () => {
 		apiClient()
 			.get(currentLink)
 			.then((response: any) => {
 				console.log(response);
+
 				setRevenues(response.data.revenues.data);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
+	const ApproveFunc = (id: number) => {
+		apiClient()
+			.put(`${BACKENDAPI}/v1.0/revenues/approve`, {
+				id: id,
+			})
+			.then((response: any) => {
+				toast.success("revenue approved");
+				const tempRevenue: any = revenues.map((el: any) => {
+					if (el.id === id) {
+						el.status = 1;
+					}
+					return el;
+				});
+				setRevenues(tempRevenue);
+
+				console.log(response);
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -26,35 +48,27 @@ const RevenuesPageComponent: React.FC = () => {
 
 	return (
 		<>
-			{/* 
-		
-		   // {
-            //     "date": "2021-10-14",
-            //     "amount": "10",
-            //     "account": "sadefaer aeraerg ",
-            //     "customer": "erfgre gaerge",
-            //     "description": "fttghr",
-            //     "category": "eargeg",
-            //     "reference": "1015"
-            // }
-		*/}
-			<table className="table">
+			<table className="table table-responsive">
 				<thead>
 					<tr>
+						<th scope="col">Wing</th>
 						<th scope="col">Date</th>
 						<th scope="col">Amount</th>
 						<th scope="col">Account</th>
 						<th scope="col">Customer</th>
-						<th scope="col">description</th>
-						<th scope="col">category</th>
-						<th scope="col">reference</th>
+						<th scope="col">Description</th>
+						<th scope="col">Category</th>
+						<th scope="col">Reference</th>
+						<th scope="col">Status</th>
+						<th scope="col">Action</th>
 					</tr>
 				</thead>
 				{revenues.length ? (
 					<tbody>
-						{revenues.map((el: any) => {
+						{revenues.map((el: any, index) => {
 							return (
 								<tr key={el.id}>
+									<td>{el.wing.name}</td>
 									<td>{el.date}</td>
 									<td>{el.amount}</td>
 									<td>{el.account}</td>
@@ -62,6 +76,24 @@ const RevenuesPageComponent: React.FC = () => {
 									<td>{el.description}</td>
 									<td>{el.category}</td>
 									<td>{el.reference}</td>
+									<td>{el.status ? "approved" : "pending"}</td>
+									<td>
+										<div className="dropdown">
+											<span className="btn btn-primary btn-sm">
+												Action
+											</span>
+											<div className="dropdown-content">
+												<div className="d-grid gap-2">
+													<button
+														className="btn d_btn btn-sm"
+														type="button"
+														onClick={() => ApproveFunc(el.id)}>
+														Approve
+													</button>
+												</div>
+											</div>
+										</div>
+									</td>
 								</tr>
 							);
 						})}

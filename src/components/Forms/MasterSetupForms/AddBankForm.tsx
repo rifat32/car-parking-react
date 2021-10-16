@@ -4,26 +4,17 @@ import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
 
 interface FormData {
-	date: string;
-	amount: string;
-	account: string;
-	vendor: string;
-	description: string;
-	category: string;
-	reference: string;
+	name: string;
+	account_number: string;
 	wing_id: string;
 }
-const AddPaymentForm: React.FC = () => {
+const AddBankForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
-		date: "",
-		amount: "",
-		account: "",
-		vendor: "",
-		description: "",
-		category: "",
-		reference: "",
+		name: "",
+		account_number: "",
 		wing_id: "",
 	});
+
 	const [wings, setWings] = useState([]);
 	useEffect(() => {
 		loadWings();
@@ -40,6 +31,13 @@ const AddPaymentForm: React.FC = () => {
 				console.log(error.response);
 			});
 	};
+	const resetFunction = () => {
+		setFormData({
+			name: "",
+			account_number: "",
+			wing_id: "",
+		});
+	};
 
 	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,28 +50,15 @@ const AddPaymentForm: React.FC = () => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const resetFunction = () => {
-		setFormData({
-			date: "",
-			amount: "",
-			account: "",
-			vendor: "",
-			description: "",
-			category: "",
-			reference: "",
-			wing_id: "",
-		});
-	};
 	// handle submit Function
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
-
 		apiClient()
-			.post(`${BACKENDAPI}/v1.0/payments`, { ...formData })
+			.post(`${BACKENDAPI}/v1.0/banks`, { ...formData })
 			.then((response) => {
 				console.log(response);
-				toast.success("Payment saved");
+				toast.success("Bank saved");
 				resetFunction();
 			})
 			.catch((error) => {
@@ -105,90 +90,29 @@ const AddPaymentForm: React.FC = () => {
 				</select>
 			</div>
 			<div className="col-md-6">
-				<label htmlFor="date" className="form-label">
-					Date
-				</label>
-				<input
-					type="date"
-					className="form-control"
-					id="date"
-					name="date"
-					onChange={handleChange}
-					value={formData.date}
-				/>
-			</div>
-			<div className="col-md-6">
-				<label htmlFor="amount" className="form-label">
-					Amount
-				</label>
-				<input
-					type="number"
-					className="form-control"
-					id="amount"
-					name="amount"
-					onChange={handleChange}
-					value={formData.amount}
-				/>
-			</div>
-			<div className="col-md-6">
-				<label htmlFor="account" className="form-label">
-					Account
+				<label htmlFor="name" className="form-label">
+					Bank Name
 				</label>
 				<input
 					type="text"
 					className="form-control"
-					id="account"
-					name="account"
+					id="name"
+					name="name"
 					onChange={handleChange}
-					value={formData.account}
+					value={formData.name}
 				/>
 			</div>
 			<div className="col-md-6">
-				<label htmlFor="vendor" className="form-label">
-					Vendor
+				<label htmlFor="account_number" className="form-label">
+					Account Number
 				</label>
 				<input
 					type="text"
 					className="form-control"
-					id="vendor"
-					name="vendor"
+					id="account_number"
+					name="account_number"
 					onChange={handleChange}
-					value={formData.vendor}
-				/>
-			</div>
-			<div className="col-md-12">
-				<label htmlFor="description" className="form-label">
-					Description
-				</label>
-				<textarea
-					className="form-control"
-					id="description"
-					name="description"
-					onChange={handleChangeTextArea}
-					value={formData.description}></textarea>
-			</div>
-			<div className="col-md-6">
-				<label htmlFor="category" className="form-label">
-					Category
-				</label>
-				<input
-					className="form-control"
-					id="category"
-					name="category"
-					onChange={handleChange}
-					value={formData.category}
-				/>
-			</div>
-			<div className="col-md-6">
-				<label htmlFor="reference" className="form-label">
-					Reference
-				</label>
-				<input
-					className="form-control"
-					id="reference"
-					name="reference"
-					onChange={handleChange}
-					value={formData.reference}
+					value={formData.account_number}
 				/>
 			</div>
 
@@ -210,4 +134,4 @@ const AddPaymentForm: React.FC = () => {
 	);
 };
 
-export default AddPaymentForm;
+export default AddBankForm;

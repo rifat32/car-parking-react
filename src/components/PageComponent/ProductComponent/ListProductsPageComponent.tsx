@@ -27,11 +27,12 @@ const ListProductsPageComponent: React.FC = () => {
 			<table className="table">
 				<thead>
 					<tr>
-						<th scope="col">Name</th>
+						<th scope="col">Wing</th>
+						<th scope="col"> Product Name</th>
 						<th scope="col">Brand</th>
 						<th scope="col">Category</th>
 						<th scope="col">Sku</th>
-						<th scope="col">Quantity</th>
+						{/* <th scope="col">Quantity</th> */}
 						<th scope="col">Price</th>
 					</tr>
 				</thead>
@@ -40,12 +41,13 @@ const ListProductsPageComponent: React.FC = () => {
 						{products.map((el: any) => {
 							return (
 								<tr key={el.id}>
-									<td>{el.pName}</td>
-									<td>{el.pBrand}</td>
-									<td>{el.pCategory}</td>
-									<td>{el.pSku}</td>
-									<td>{el.pQuantity}</td>
-									<td>{el.pPrice}</td>
+									<td>{el.wing.name}</td>
+									<td>{el.name}</td>
+									<td>{el.brand}</td>
+									<td>{el.category}</td>
+									<td>{el.sku}</td>
+									{/* <td>{el.pQuantity}</td> */}
+									<td>{el.price}</td>
 								</tr>
 							);
 						})}

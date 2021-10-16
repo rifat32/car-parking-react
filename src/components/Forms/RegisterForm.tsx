@@ -38,7 +38,7 @@ const RegisterForm: React.FC = (props: any) => {
 			.then((response: any) => {
 				console.log(response.data);
 				localStorage.setItem("token", response.data.token);
-				toast("Registration Successfull.");
+				toast.success("Registration Successfull.");
 				setUserFunction(response.data.user);
 				setLoading(false);
 				setUserLoadingFunction(false);

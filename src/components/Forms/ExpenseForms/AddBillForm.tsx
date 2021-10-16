@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BACKENDAPI } from "../../../data/config";
 import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ interface FormData {
 	category: string;
 	orderNumber: string;
 	discountApply: boolean;
+	wing_id: string;
 }
 const AddBillForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
@@ -19,7 +20,24 @@ const AddBillForm: React.FC = () => {
 		category: "",
 		orderNumber: "",
 		discountApply: false,
+		wing_id: "",
 	});
+	const [wings, setWings] = useState([]);
+	useEffect(() => {
+		loadWings();
+	}, []);
+
+	const loadWings = () => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/wings/all`)
+			.then((response: any) => {
+				console.log(response);
+				setWings(response.data.wings);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
 
 	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +45,9 @@ const AddBillForm: React.FC = () => {
 	};
 	const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.checked });
+	};
+	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
 	const resetFunction = () => {
@@ -37,6 +58,7 @@ const AddBillForm: React.FC = () => {
 			category: "",
 			orderNumber: "",
 			discountApply: false,
+			wing_id: "",
 		});
 	};
 	// handle submit Function
@@ -58,6 +80,27 @@ const AddBillForm: React.FC = () => {
 
 	return (
 		<form className="row g-3">
+			<div className="col-md-12">
+				<label htmlFor="bill" className="form-label">
+					Wing
+				</label>
+				<select
+					className="form-select"
+					id="wing_id"
+					name="wing_id"
+					onChange={handleSelect}
+					value={formData.wing_id}>
+					<option value="">Please Select</option>
+					{wings.map((el: any, index) => (
+						<option
+							key={index}
+							value={el.id}
+							style={{ textTransform: "uppercase" }}>
+							{el.name}
+						</option>
+					))}
+				</select>
+			</div>
 			<div className="col-md-4">
 				<label htmlFor="vendor" className="form-label">
 					Vendor

@@ -11,6 +11,14 @@ export const adminSideBarData: NavInterface[] = [
 				name: "Create Wings",
 				link: "/admin/wings/create",
 			},
+			{
+				name: "Bank",
+				link: "/admin/banks",
+			},
+			{
+				name: "Create Bank",
+				link: "/admin/banks/create",
+			},
 		],
 	},
 	{
@@ -103,6 +111,19 @@ export const adminSideBarData: NavInterface[] = [
 			{
 				name: "Debit Note Create",
 				link: "/admin/debitNotes/create",
+			},
+		],
+	},
+	{
+		name: "Balance",
+		list: [
+			{
+				name: "Total Balance",
+				link: "/admin/balance",
+			},
+			{
+				name: "Balance Transfer",
+				link: "/admin/revenues",
 			},
 		],
 	},

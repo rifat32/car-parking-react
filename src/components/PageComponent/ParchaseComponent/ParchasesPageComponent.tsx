@@ -4,20 +4,20 @@ import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
 
 const ParchasesPageComponent: React.FC = () => {
-	const [requisitions, setRequisitions] = useState([]);
+	const [parchased, setParchases] = useState([]);
 	const [currentLink, setCurrentLink] = useState(
 		`${BACKENDAPI}/v1.0/parchases`
 	);
 	useEffect(() => {
-		loadProducts();
+		loadParchases();
 	}, []);
 	// pagination required
-	const loadProducts = () => {
+	const loadParchases = () => {
 		apiClient()
 			.get(currentLink)
 			.then((response: any) => {
 				console.log(response);
-				setRequisitions(response.data.parchases.data);
+				setParchases(response.data.parchases.data);
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -41,27 +41,31 @@ const ParchasesPageComponent: React.FC = () => {
 			<table className="table">
 				<thead>
 					<tr>
+						<th scope="col">Wing</th>
 						<th scope="col">Supplier</th>
-						<th scope="col">ReferenceNo</th>
-						<th scope="col">PurchaseDate</th>
-						<th scope="col">PurchaseStatus</th>
+						<th scope="col">Reference</th>
+						<th scope="col">Date</th>
+						<th scope="col">Status</th>
 						{/* <th scope="col">ProductId</th> */}
+						<th scope="col">Product</th>
 						<th scope="col">Amount</th>
-						<th scope="col">PaymentMethod</th>
+						<th scope="col">Payment Method</th>
 					</tr>
 				</thead>
-				{requisitions.length ? (
+				{parchased.length ? (
 					<tbody>
-						{requisitions.map((el: any) => {
+						{parchased.map((el: any) => {
 							return (
 								<tr key={el.id}>
-									<td>{el.rSupplier}</td>
-									<td>{el.rReferenceNo}</td>
-									<td>{el.rPurchaseDate}</td>
-									<td>{el.rPurchaseStatus}</td>
+									<td>{el.wing.name}</td>
+									<td>{el.supplier}</td>
+									<td>{el.reference_no}</td>
+									<td>{el.purchase_date}</td>
+									<td>{el.purchase_status}</td>
 									{/* <td>{el.rProductId}</td> */}
-									<td>{el.rAmount}</td>
-									<td>{el.rPaymentMethod}</td>
+									<td>{el.product.name}</td>
+									<td>{el.product.price}</td>
+									<td>{el.payment_method}</td>
 								</tr>
 							);
 						})}

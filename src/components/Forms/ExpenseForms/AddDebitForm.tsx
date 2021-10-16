@@ -8,6 +8,7 @@ interface FormData {
 	amount: string;
 	date: string;
 	description: string;
+	wing_id: string;
 }
 const AddDebitForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
@@ -15,19 +16,32 @@ const AddDebitForm: React.FC = () => {
 		amount: "",
 		date: "",
 		description: "",
+		wing_id: "",
 	});
 	const [bills, setBills] = useState([]);
-	const [currentLink, setCurrentLink] = useState(`${BACKENDAPI}/v1.0/bills`);
+	const [wings, setWings] = useState([]);
 	useEffect(() => {
-		loadBills();
+		loadWings();
 	}, []);
-	// pagination required
-	const loadBills = () => {
+	const loadWings = () => {
 		apiClient()
-			.get(currentLink)
+			.get(`${BACKENDAPI}/v1.0/wings/all`)
 			.then((response: any) => {
 				console.log(response);
-				setBills(response.data.bills.data);
+				setWings(response.data.wings);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
+
+	// pagination required
+	const loadBills = (wing_id: string) => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/bills/${wing_id}`)
+			.then((response: any) => {
+				console.log(response);
+				setBills(response.data.bills);
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -43,6 +57,9 @@ const AddDebitForm: React.FC = () => {
 	};
 	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
+		if (e.target.name === "wing_id") {
+			loadBills(e.target.value);
+		}
 	};
 
 	const resetFunction = () => {
@@ -51,6 +68,7 @@ const AddDebitForm: React.FC = () => {
 			amount: "",
 			date: "",
 			description: "",
+			wing_id: "",
 		});
 	};
 	// handle submit Function
@@ -73,7 +91,28 @@ const AddDebitForm: React.FC = () => {
 		<form className="row g-3">
 			<div className="col-md-12">
 				<label htmlFor="bill" className="form-label">
-					Purchase Status
+					Wing
+				</label>
+				<select
+					className="form-select"
+					id="wing_id"
+					name="wing_id"
+					onChange={handleSelect}
+					value={formData.wing_id}>
+					<option value="">Please Select</option>
+					{wings.map((el: any, index) => (
+						<option
+							key={index}
+							value={el.id}
+							style={{ textTransform: "uppercase" }}>
+							{el.name}
+						</option>
+					))}
+				</select>
+			</div>
+			<div className="col-md-12">
+				<label htmlFor="bill" className="form-label">
+					Bill
 				</label>
 				<select
 					className="form-select"

@@ -44,7 +44,7 @@ const AddWingForm: React.FC = () => {
 	};
 
 	return (
-		<form className="row g-3">
+		<form className="row g-3" onSubmit={handleSubmit}>
 			<div className="col-md-6">
 				<label htmlFor="name" className="form-label">
 					Name
@@ -60,10 +60,7 @@ const AddWingForm: React.FC = () => {
 			</div>
 
 			<div className="text-center">
-				<button
-					onClick={handleSubmit}
-					type="button"
-					className="btn btn-primary me-2">
+				<button type="submit" className="btn btn-primary me-2">
 					Submit
 				</button>
 				<button

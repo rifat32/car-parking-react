@@ -23,6 +23,9 @@ import CreateDebitNotePage from "../pages/AdminPages/Expense/AddDebitNotePage";
 import ListDebitNotesPage from "../pages/AdminPages/Expense/ListDebitNotesPage";
 import CreateWingPage from "../pages/AdminPages/MasterSetup/AddWingPage";
 import ListWingsPage from "../pages/AdminPages/MasterSetup/ListWingsPage";
+import CreateBankPage from "../pages/AdminPages/MasterSetup/AddBankPage";
+import ListBankPage from "../pages/AdminPages/MasterSetup/ListBankPage";
+import TotalBalancePage from "../pages/AdminPages/Balance/TotalBalancePage";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -61,6 +64,18 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: ListWingsPage,
 	},
+	// banks
+	{
+		path: "/admin/banks/create",
+		exact: false,
+		component: CreateBankPage,
+	},
+	{
+		path: "/admin/banks",
+		exact: true,
+		component: ListBankPage,
+	},
+
 	// products
 	{
 		path: "/admin/products/create",
@@ -150,5 +165,11 @@ export const RouteData: RouteInterface[] = [
 		path: "/admin/debitNotes",
 		exact: true,
 		component: ListDebitNotesPage,
+	},
+	// Balance
+	{
+		path: "/admin/balance",
+		exact: true,
+		component: TotalBalancePage,
 	},
 ];

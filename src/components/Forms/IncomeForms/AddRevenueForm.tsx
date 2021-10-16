@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BACKENDAPI } from "../../../data/config";
 import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ interface FormData {
 	description: string;
 	category: string;
 	reference: string;
+	wing_id: string;
 }
 const AddRevenueForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
@@ -21,10 +22,30 @@ const AddRevenueForm: React.FC = () => {
 		description: "",
 		category: "",
 		reference: "",
+		wing_id: "",
 	});
+	const [wings, setWings] = useState([]);
+	useEffect(() => {
+		loadWings();
+	}, []);
+
+	const loadWings = () => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/wings/all`)
+			.then((response: any) => {
+				console.log(response);
+				setWings(response.data.wings);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
 
 	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const handleTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -42,6 +63,7 @@ const AddRevenueForm: React.FC = () => {
 			description: "",
 			category: "",
 			reference: "",
+			wing_id: "",
 		});
 	};
 	// handle submit Function
@@ -62,7 +84,28 @@ const AddRevenueForm: React.FC = () => {
 	};
 
 	return (
-		<form className="row g-3">
+		<form className="row g-3" onSubmit={handleSubmit}>
+			<div className="col-md-12">
+				<label htmlFor="bill" className="form-label">
+					Wing
+				</label>
+				<select
+					className="form-select"
+					id="wing_id"
+					name="wing_id"
+					onChange={handleSelect}
+					value={formData.wing_id}>
+					<option value="">Please Select</option>
+					{wings.map((el: any, index) => (
+						<option
+							key={index}
+							value={el.id}
+							style={{ textTransform: "uppercase" }}>
+							{el.name}
+						</option>
+					))}
+				</select>
+			</div>
 			<div className="col-md-6">
 				<label htmlFor="date" className="form-label">
 					Date

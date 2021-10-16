@@ -42,28 +42,18 @@ const RequisitionsPageComponent: React.FC = () => {
 	};
 	return (
 		<>
-			{/* 
-		
-		   // {
-            //     "rSupplier": "",
-            //     "rReferenceNo": "",
-            //     "rPurchaseDate": "",
-            //     "rPurchaseStatus": "",
-            //     "rProductId": 2,
-            //     "rAmount": "",
-            //     "rPaymentMethod": ""
-            // }
-		*/}
 			<table className="table">
 				<thead>
 					<tr>
+						<th scope="col">Wing</th>
 						<th scope="col">Supplier</th>
-						<th scope="col">ReferenceNo</th>
-						<th scope="col">PurchaseDate</th>
-						<th scope="col">PurchaseStatus</th>
+						<th scope="col">Reference</th>
+						<th scope="col">Date</th>
+						<th scope="col">Status</th>
 						{/* <th scope="col">ProductId</th> */}
+						<th scope="col">Product</th>
 						<th scope="col">Amount</th>
-						<th scope="col">PaymentMethod</th>
+						<th scope="col">Payment Method</th>
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
@@ -72,13 +62,15 @@ const RequisitionsPageComponent: React.FC = () => {
 						{requisitions.map((el: any) => {
 							return (
 								<tr key={el.id}>
-									<td>{el.rSupplier}</td>
-									<td>{el.rReferenceNo}</td>
-									<td>{el.rPurchaseDate}</td>
-									<td>{el.rPurchaseStatus}</td>
+									<td>{el.wing.name}</td>
+									<td>{el.supplier}</td>
+									<td>{el.reference_no}</td>
+									<td>{el.purchase_date}</td>
+									<td>{el.purchase_status}</td>
 									{/* <td>{el.rProductId}</td> */}
-									<td>{el.rAmount}</td>
-									<td>{el.rPaymentMethod}</td>
+									<td>{el.product.name}</td>
+									<td>{el.product.price}</td>
+									<td>{el.payment_method}</td>
 									<td onClick={() => moveToParchase(el.id)}>
 										<button
 											type="button"
