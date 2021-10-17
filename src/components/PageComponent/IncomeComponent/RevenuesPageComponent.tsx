@@ -71,7 +71,7 @@ const RevenuesPageComponent: React.FC = () => {
 									<td>{el.wing.name}</td>
 									<td>{el.date}</td>
 									<td>{el.amount}</td>
-									<td>{el.account}</td>
+									<td>{el.account_number}</td>
 									<td>{el.customer}</td>
 									<td>{el.description}</td>
 									<td>{el.category}</td>

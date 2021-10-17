@@ -53,6 +53,7 @@ const DebitNotesPageComponent: React.FC = () => {
 						<th scope="col">Vendor</th>
 						<th scope="col">Bill</th>
 						<th scope="col">Amount</th>
+						<th scope="col">Account</th>
 						<th scope="col">Date</th>
 						<th scope="col">Description</th>
 						<th scope="col">Status</th>
@@ -69,6 +70,7 @@ const DebitNotesPageComponent: React.FC = () => {
 									<td>{el.bill.vendor}</td>
 									<td>{`#bill0000${el.bill_id}`}</td>
 									<td>{el.amount}</td>
+									<td>{el.account_number}</td>
 									<td>{el.date}</td>
 									<td>{el.description}</td>
 									<td>{el.status ? "approved" : "pending"}</td>

@@ -4,16 +4,18 @@ import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
 
 interface FormData {
-	bill: string;
+	bill_id: string;
 	amount: string;
+	account_number: string;
 	date: string;
 	description: string;
 	wing_id: string;
 }
 const AddDebitForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
-		bill: "",
+		bill_id: "",
 		amount: "",
+		account_number: "",
 		date: "",
 		description: "",
 		wing_id: "",
@@ -64,11 +66,12 @@ const AddDebitForm: React.FC = () => {
 
 	const resetFunction = () => {
 		setFormData({
-			bill: "",
+			bill_id: "",
 			amount: "",
 			date: "",
 			description: "",
 			wing_id: "",
+			account_number: "",
 		});
 	};
 	// handle submit Function
@@ -84,13 +87,16 @@ const AddDebitForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (error.response.status === 404) {
+					toast.error(error.response.data.message);
+				}
 			});
 	};
 
 	return (
 		<form className="row g-3">
 			<div className="col-md-12">
-				<label htmlFor="bill" className="form-label">
+				<label htmlFor="wing_id" className="form-label">
 					Wing
 				</label>
 				<select
@@ -111,15 +117,15 @@ const AddDebitForm: React.FC = () => {
 				</select>
 			</div>
 			<div className="col-md-12">
-				<label htmlFor="bill" className="form-label">
+				<label htmlFor="bill_id" className="form-label">
 					Bill
 				</label>
 				<select
 					className="form-select"
-					id="bill"
-					name="bill"
+					id="bill_id"
+					name="bill_id"
 					onChange={handleSelect}
-					value={formData.bill}>
+					value={formData.bill_id}>
 					<option value="">Please Select</option>
 					{bills.map((el: any, index) => (
 						<option
@@ -144,6 +150,19 @@ const AddDebitForm: React.FC = () => {
 					value={formData.bill}
 				/>
 			</div> */}
+			<div className="col-md-6">
+				<label htmlFor="account_number" className="form-label">
+					Account
+				</label>
+				<input
+					type="text"
+					className="form-control"
+					id="account_number"
+					name="account_number"
+					onChange={handleChange}
+					value={formData.account_number}
+				/>
+			</div>
 			<div className="col-md-6">
 				<label htmlFor="amount" className="form-label">
 					Amount

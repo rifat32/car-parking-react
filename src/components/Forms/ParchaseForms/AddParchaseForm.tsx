@@ -5,28 +5,29 @@ import { toast } from "react-toastify";
 
 interface FormData {
 	supplier: string;
-	referenceNo: string;
-	purchaseDate: string;
-	purchaseStatus: string;
-	productId: string;
-	// amount: string;
-	paymentMethod: string;
+	reference_no: string;
+	purchase_date: string;
+	purchase_status: string;
+	product_id: string;
+	payment_method: string;
 	quantity: number;
 	wing_id: string;
+	account_number: string;
 }
 const AddParchaseForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
 		supplier: "",
-		referenceNo: "",
-		purchaseDate: "",
-		purchaseStatus: "",
-		productId: "",
-		// amount: "",
-		paymentMethod: "",
+		reference_no: "",
+		purchase_date: "",
+		purchase_status: "",
+		product_id: "",
+		payment_method: "",
 		quantity: 1,
 		wing_id: "",
+		account_number: "",
 	});
 	const [wings, setWings] = useState([]);
+	const [showAccountField, setShowAccountField] = useState<boolean>(false);
 	useEffect(() => {
 		loadWings();
 	}, []);
@@ -84,19 +85,28 @@ const AddParchaseForm: React.FC = () => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		if (
+			e.target.name === "payment_method" &&
+			e.target.value === "bank transfer"
+		) {
+			setShowAccountField(true);
+		} else {
+			setShowAccountField(false);
+		}
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const resetFunction = () => {
 		setFormData({
 			supplier: "",
-			referenceNo: "",
-			purchaseDate: "",
-			purchaseStatus: "",
-			productId: "",
+			reference_no: "",
+			purchase_date: "",
+			purchase_status: "",
+			product_id: "",
 			// amount: "",
-			paymentMethod: "",
+			payment_method: "",
 			quantity: 1,
 			wing_id: "",
+			account_number: "",
 		});
 		setproduct(null);
 	};
@@ -108,11 +118,14 @@ const AddParchaseForm: React.FC = () => {
 			.post(`${BACKENDAPI}/v1.0/parchases`, { ...formData })
 			.then((response) => {
 				console.log(response);
-				toast("parchase saved");
+				toast.success("parchase saved");
 				resetFunction();
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (error.response.status === 404) {
+					toast.error(error.response.data.message);
+				}
 			});
 	};
 	// get search string Function
@@ -137,12 +150,12 @@ const AddParchaseForm: React.FC = () => {
 				console.log(response);
 				const { product } = response.data;
 				setproduct(product);
-				setFormData({ ...formData, productId: product.id });
+				setFormData({ ...formData, product_id: product.id });
 			})
 			.catch((error) => {
 				console.log(error.response);
 				setproduct(null);
-				setFormData({ ...formData, productId: "" });
+				setFormData({ ...formData, product_id: "" });
 				if (error.response.status === 404) {
 					toast("np product found");
 				}
@@ -187,41 +200,41 @@ const AddParchaseForm: React.FC = () => {
 				/>
 			</div>
 			<div className="col-md-3">
-				<label htmlFor="referenceNo" className="form-label">
+				<label htmlFor="reference_no" className="form-label">
 					Reference No
 				</label>
 				<input
 					type="text"
 					className="form-control"
-					id="referenceNo"
-					name="referenceNo"
+					id="reference_no"
+					name="reference_no"
 					onChange={handleChange}
-					value={formData.referenceNo}
+					value={formData.reference_no}
 				/>
 			</div>
 			<div className="col-md-3">
-				<label htmlFor="purchaseDate" className="form-label">
+				<label htmlFor="purchase_date" className="form-label">
 					Purchase Date:*
 				</label>
 				<input
 					type="date"
 					className="form-control"
-					id="purchaseDate"
-					name="purchaseDate"
+					id="purchase_date"
+					name="purchase_date"
 					onChange={handleChange}
-					value={formData.purchaseDate}
+					value={formData.purchase_date}
 				/>
 			</div>
 			<div className="col-md-3">
-				<label htmlFor="purchaseStatus" className="form-label">
+				<label htmlFor="purchase_status" className="form-label">
 					Purchase Status
 				</label>
 				<select
 					className="form-select"
-					id="purchaseStatus"
-					name="purchaseStatus"
+					id="purchase_status"
+					name="purchase_status"
 					onChange={handleSelect}
-					value={formData.purchaseStatus}>
+					value={formData.purchase_status}>
 					<option value="">Please Select</option>
 					{parchaseStatus.map((el, index) => (
 						<option
@@ -250,12 +263,6 @@ const AddParchaseForm: React.FC = () => {
 						onBlur={seachOnBlur}
 						placeholder="search product by name"
 					/>
-					{/* <button
-						type="button"
-						className="btn btn-primary"
-						onClick={seachProduct}>
-						search
-					</button> */}
 				</div>
 			</div>
 			<div className="col-md-12">
@@ -315,15 +322,15 @@ const AddParchaseForm: React.FC = () => {
 			</div>
 
 			<div className="col-md-3">
-				<label htmlFor="paymentMethod" className="form-label">
+				<label htmlFor="payment_method" className="form-label">
 					Payment Method
 				</label>
 				<select
 					className="form-select"
-					id="paymentMethod"
-					name="paymentMethod"
+					id="payment_method"
+					name="payment_method"
 					onChange={handleSelect}
-					value={formData.paymentMethod}>
+					value={formData.payment_method}>
 					<option value="">Please Select</option>
 					{paymentMethods.map((el, index) => (
 						<option
@@ -335,6 +342,21 @@ const AddParchaseForm: React.FC = () => {
 					))}
 				</select>
 			</div>
+			{showAccountField && (
+				<div className="col-md-6">
+					<label htmlFor="account_number" className="form-label">
+						Bank Account Number
+					</label>
+					<input
+						type="string"
+						className="form-control"
+						id="account_number"
+						name="account_number"
+						value={formData.account_number}
+						onChange={handleChange}
+					/>
+				</div>
+			)}
 
 			<div className="text-center">
 				<button

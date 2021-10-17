@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 interface FormData {
 	date: string;
 	amount: string;
-	account: string;
+	account_number: string;
 	customer: string;
 	description: string;
 	category: string;
@@ -17,7 +17,7 @@ const AddRevenueForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
 		date: "",
 		amount: "",
-		account: "",
+		account_number: "",
 		customer: "",
 		description: "",
 		category: "",
@@ -58,7 +58,7 @@ const AddRevenueForm: React.FC = () => {
 		setFormData({
 			date: "",
 			amount: "",
-			account: "",
+			account_number: "",
 			customer: "",
 			description: "",
 			category: "",
@@ -80,6 +80,9 @@ const AddRevenueForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (error.response.status === 404) {
+					toast.error(error.response.data.message);
+				}
 			});
 	};
 
@@ -132,19 +135,21 @@ const AddRevenueForm: React.FC = () => {
 					value={formData.amount}
 				/>
 			</div>
+
 			<div className="col-md-6">
-				<label htmlFor="account" className="form-label">
-					Account
+				<label htmlFor="account_number" className="form-label">
+					Bank Account Number
 				</label>
 				<input
-					type="text"
+					type="string"
 					className="form-control"
-					id="account"
-					name="account"
+					id="account_number"
+					name="account_number"
+					value={formData.account_number}
 					onChange={handleChange}
-					value={formData.account}
 				/>
 			</div>
+
 			<div className="col-md-6">
 				<label htmlFor="customer" className="form-label">
 					Customer
