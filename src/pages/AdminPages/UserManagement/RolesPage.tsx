@@ -1,6 +1,7 @@
 import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import RolesPageComponent from "../../../components/PageComponent/UserManagementComponent/RolesPageComponent";
+import { Link } from "react-router-dom";
 
 const RolesPage: React.FC = () => {
 	return (
@@ -24,7 +25,14 @@ const RolesPage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">All Roles</h5>
+									<div className="d-flex justify-content-between align-items-end">
+										<h5 className="card-title">All Roles</h5>
+										<Link
+											to="/admin/roles/create"
+											className="btn btn-primary">
+											Add Data
+										</Link>
+									</div>
 									<RolesPageComponent />
 								</div>
 							</div>

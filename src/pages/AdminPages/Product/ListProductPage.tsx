@@ -1,6 +1,7 @@
 import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import ListProductsPageComponent from "../../../components/PageComponent/ProductComponent/ListProductsPageComponent";
+import { Link } from "react-router-dom";
 
 const ProductsList: React.FC = () => {
 	return (
@@ -24,7 +25,14 @@ const ProductsList: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">All Products</h5>
+									<div className="d-flex justify-content-between align-items-end">
+										<h5 className="card-title">All Products</h5>
+										<Link
+											to="/admin/products/create"
+											className="btn btn-primary">
+											Add Data
+										</Link>
+									</div>
 									<ListProductsPageComponent />
 								</div>
 							</div>

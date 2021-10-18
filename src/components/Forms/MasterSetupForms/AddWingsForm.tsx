@@ -10,6 +10,7 @@ const AddWingForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
 	});
+	const [errors, setErrors] = useState<any>(null);
 
 	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +32,7 @@ const AddWingForm: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
+		setErrors(null);
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/wings`, { ...formData })
 			.then((response) => {
@@ -40,6 +42,16 @@ const AddWingForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
+					toast.error(error.response.data.message);
+				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
+				}
 			});
 	};
 
@@ -51,12 +63,22 @@ const AddWingForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.name
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="name"
 					name="name"
 					onChange={handleChange}
 					value={formData.name}
 				/>
+				{errors?.name && (
+					<div className="invalid-feedback">{errors.name[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="text-center">

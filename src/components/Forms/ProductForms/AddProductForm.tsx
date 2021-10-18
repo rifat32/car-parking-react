@@ -33,6 +33,8 @@ const AddProductForm: React.FC = () => {
 		wing_id: "",
 	});
 	const [wings, setWings] = useState([]);
+	const [errors, setErrors] = useState<any>(null);
+
 	useEffect(() => {
 		loadWings();
 	}, []);
@@ -72,6 +74,7 @@ const AddProductForm: React.FC = () => {
 	};
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		setErrors(null);
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/products`, { ...formData })
 			.then((response) => {
@@ -81,6 +84,16 @@ const AddProductForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
+					toast.error(error.response.data.message);
+				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
+				}
 			});
 	};
 
@@ -91,7 +104,13 @@ const AddProductForm: React.FC = () => {
 					Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="wing_id"
 					name="wing_id"
 					onChange={handleSelect}
@@ -106,6 +125,10 @@ const AddProductForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+				{errors?.wing_id && (
+					<div className="invalid-feedback">{errors.wing_id[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
 				<label htmlFor="name" className="form-label">
@@ -113,12 +136,22 @@ const AddProductForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.name
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="name"
 					name="name"
 					onChange={handleChange}
 					value={formData.name}
 				/>
+				{errors?.name && (
+					<div className="invalid-feedback">{errors.name[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
 				<label htmlFor="brand" className="form-label">
@@ -126,12 +159,22 @@ const AddProductForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.brand
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="brand"
 					name="brand"
 					onChange={handleChange}
 					value={formData.brand}
 				/>
+				{errors?.brand && (
+					<div className="invalid-feedback">{errors.brand[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
 				<label htmlFor="category" className="form-label">
@@ -139,12 +182,22 @@ const AddProductForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.category
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="category"
 					name="category"
 					onChange={handleChange}
 					value={formData.category}
 				/>
+				{errors?.category && (
+					<div className="invalid-feedback">{errors.category[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
 				<label htmlFor="sku" className="form-label">
@@ -152,38 +205,46 @@ const AddProductForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.sku
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="sku"
 					name="sku"
 					onChange={handleChange}
 					value={formData.sku}
 				/>
+				{errors?.sku && (
+					<div className="invalid-feedback">{errors.sku[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
-			{/* <div className="col-md-4">
-				<label htmlFor="quantity" className="form-label">
-					Alert quantity
-				</label>
-				<input
-					type="number"
-					className="form-control"
-					id="quantity"
-					name="quantity"
-					onChange={handleChange}
-					value={formData.quantity}
-				/>
-			</div> */}
+
 			<div className="col-md-4">
 				<label htmlFor="price" className="form-label">
 					Price
 				</label>
 				<input
 					type="number"
-					className="form-control"
+					className={
+						errors
+							? errors.price
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="price"
 					name="price"
 					onChange={handleChange}
 					value={formData.price}
 				/>
+				{errors?.price && (
+					<div className="invalid-feedback">{errors.price[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="text-center">

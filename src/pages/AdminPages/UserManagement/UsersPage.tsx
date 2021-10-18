@@ -1,6 +1,7 @@
 import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import UsersPageComponent from "../../../components/PageComponent/UserManagementComponent/UsersPageComponent";
+import { Link } from "react-router-dom";
 
 const UsersPage: React.FC = () => {
 	return (
@@ -24,7 +25,14 @@ const UsersPage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">All Users</h5>
+									<div className="d-flex justify-content-between align-items-end">
+										<h5 className="card-title">All Users</h5>
+										<Link
+											to="/admin/users/create"
+											className="btn btn-primary">
+											Add Data
+										</Link>
+									</div>
 									<UsersPageComponent />
 								</div>
 							</div>

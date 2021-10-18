@@ -71,7 +71,10 @@ const AddUserForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
-				if (error.response.status === 404) {
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
 					toast.error(error.response.data.message);
 				}
 				if (error.response.status === 422) {
@@ -118,7 +121,7 @@ const AddUserForm: React.FC = () => {
 								: `form-control is-valid`
 							: "form-control"
 					}
-					id="yourPassword"
+					id="name"
 					required
 					onChange={handleChange}
 					value={formData.name}
@@ -195,7 +198,7 @@ const AddUserForm: React.FC = () => {
 								: `form-control is-valid`
 							: "form-control"
 					}
-					id="yourPassword"
+					id="password_confirmation"
 					required
 					onChange={handleChange}
 					value={formData.password_confirmation}

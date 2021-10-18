@@ -18,7 +18,7 @@ const TransferBalanceFrom: React.FC = () => {
 		recieving_account_number: "",
 		amount: "",
 	});
-
+	const [errors, setErrors] = useState<any>(null);
 	const [wings, setWings] = useState([]);
 	useEffect(() => {
 		loadWings();
@@ -61,7 +61,7 @@ const TransferBalanceFrom: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
-
+		setErrors(null);
 		apiClient()
 			.patch(`${BACKENDAPI}/v1.0/balance/transfer`, { ...formData })
 			.then((response) => {
@@ -78,6 +78,10 @@ const TransferBalanceFrom: React.FC = () => {
 				) {
 					toast.error(error.response.data.message);
 				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
+				}
 			});
 	};
 
@@ -88,7 +92,13 @@ const TransferBalanceFrom: React.FC = () => {
 					Sending Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.sending_wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="sending_wing_id"
 					name="sending_wing_id"
 					onChange={handleSelect}
@@ -103,26 +113,52 @@ const TransferBalanceFrom: React.FC = () => {
 						</option>
 					))}
 				</select>
+
+				{errors?.sending_wing_id && (
+					<div className="invalid-feedback">
+						{errors.sending_wing_id[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="sending_account_number" className="form-label">
-					Sending Account
+					Sending Account Number
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.sending_account_number
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="sending_account_number"
 					name="sending_account_number"
 					onChange={handleChange}
 					value={formData.sending_account_number}
 				/>
+
+				{errors?.sending_account_number && (
+					<div className="invalid-feedback">
+						{errors.sending_account_number[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="recieving_wing_id" className="form-label">
 					Recieving Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.recieving_wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="recieving_wing_id"
 					name="recieving_wing_id"
 					onChange={handleSelect}
@@ -137,19 +173,39 @@ const TransferBalanceFrom: React.FC = () => {
 						</option>
 					))}
 				</select>
+
+				{errors?.recieving_wing_id && (
+					<div className="invalid-feedback">
+						{errors.recieving_wing_id[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="recieving_account_number" className="form-label">
-					Recieving Account
+					Recieving Account Number
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.recieving_account_number
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="recieving_account_number"
 					name="recieving_account_number"
 					onChange={handleChange}
 					value={formData.recieving_account_number}
 				/>
+
+				{errors?.recieving_account_number && (
+					<div className="invalid-feedback">
+						{errors.recieving_account_number[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="col-md-6">
@@ -158,12 +214,23 @@ const TransferBalanceFrom: React.FC = () => {
 				</label>
 				<input
 					type="number"
-					className="form-control"
+					className={
+						errors
+							? errors.amount
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="amount"
 					name="amount"
 					onChange={handleChange}
 					value={formData.amount}
 				/>
+
+				{errors?.amount && (
+					<div className="invalid-feedback">{errors.amount[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="text-center">
 				<button

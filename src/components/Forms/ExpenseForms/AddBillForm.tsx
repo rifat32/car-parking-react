@@ -5,23 +5,24 @@ import { toast } from "react-toastify";
 
 interface FormData {
 	vendor: string;
-	billDate: string;
-	dueDate: string;
+	bill_date: string;
+	due_date: string;
 	category: string;
-	orderNumber: string;
-	discountApply: boolean;
+	order_number: string;
+	discount_apply: boolean;
 	wing_id: string;
 }
 const AddBillForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
 		vendor: "",
-		billDate: "",
-		dueDate: "",
+		bill_date: "",
+		due_date: "",
 		category: "",
-		orderNumber: "",
-		discountApply: false,
+		order_number: "",
+		discount_apply: false,
 		wing_id: "",
 	});
+	const [errors, setErrors] = useState<any>(null);
 	const [wings, setWings] = useState([]);
 	useEffect(() => {
 		loadWings();
@@ -53,11 +54,11 @@ const AddBillForm: React.FC = () => {
 	const resetFunction = () => {
 		setFormData({
 			vendor: "",
-			billDate: "",
-			dueDate: "",
+			bill_date: "",
+			due_date: "",
 			category: "",
-			orderNumber: "",
-			discountApply: false,
+			order_number: "",
+			discount_apply: false,
 			wing_id: "",
 		});
 	};
@@ -65,7 +66,7 @@ const AddBillForm: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
-
+		setErrors(null);
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/bills`, { ...formData })
 			.then((response) => {
@@ -75,6 +76,16 @@ const AddBillForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
+					toast.error(error.response.data.message);
+				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
+				}
 			});
 	};
 
@@ -85,7 +96,13 @@ const AddBillForm: React.FC = () => {
 					Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="wing_id"
 					name="wing_id"
 					onChange={handleSelect}
@@ -100,6 +117,11 @@ const AddBillForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+
+				{errors?.wing_id && (
+					<div className="invalid-feedback">{errors.wing_id[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
 				<label htmlFor="vendor" className="form-label">
@@ -107,38 +129,71 @@ const AddBillForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.vendor
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="vendor"
 					name="vendor"
 					onChange={handleChange}
 					value={formData.vendor}
 				/>
+
+				{errors?.vendor && (
+					<div className="invalid-feedback">{errors.vendor[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
-				<label htmlFor="billDate" className="form-label">
+				<label htmlFor="bill_date" className="form-label">
 					Bill Date
 				</label>
 				<input
 					type="date"
-					className="form-control"
-					id="billDate"
-					name="billDate"
+					className={
+						errors
+							? errors.bill_date
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
+					id="bill_date"
+					name="bill_date"
 					onChange={handleChange}
-					value={formData.billDate}
+					value={formData.bill_date}
 				/>
+
+				{errors?.bill_date && (
+					<div className="invalid-feedback">{errors.bill_date[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
-				<label htmlFor="dueDate" className="form-label">
+				<label htmlFor="due_date" className="form-label">
 					Due Date
 				</label>
 				<input
 					type="date"
-					className="form-control"
-					id="dueDate"
-					name="dueDate"
+					className={
+						errors
+							? errors.due_date
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
+					id="due_date"
+					name="due_date"
 					onChange={handleChange}
-					value={formData.dueDate}
+					value={formData.due_date}
 				/>
+
+				{errors?.due_date && (
+					<div className="invalid-feedback">{errors.due_date[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-4">
 				<label htmlFor="category" className="form-label">
@@ -146,37 +201,72 @@ const AddBillForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.category
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="category"
 					name="category"
 					onChange={handleChange}
 					value={formData.category}
 				/>
+
+				{errors?.category && (
+					<div className="invalid-feedback">{errors.category[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="col-md-4">
-				<label htmlFor="orderNumber" className="form-label">
+				<label htmlFor="order_number" className="form-label">
 					Order Number
 				</label>
 				<input
 					type="number"
-					className="form-control"
-					id="orderNumber"
-					name="orderNumber"
+					className={
+						errors
+							? errors.order_number
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
+					id="order_number"
+					name="order_number"
 					onChange={handleChange}
-					value={formData.orderNumber}
+					value={formData.order_number}
 				/>
+
+				{errors?.order_number && (
+					<div className="invalid-feedback">{errors.order_number[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-12">
 				<div className="form-check">
 					<input
-						className="form-check-input"
+						className={
+							errors
+								? errors.discount_apply
+									? `form-check-input is-invalid`
+									: `form-check-input is-valid`
+								: "form-check-input"
+						}
 						type="checkbox"
-						id="discountApply"
-						name="discountApply"
+						id="discount_apply"
+						name="discount_apply"
 						onChange={handleChecked}
-						checked={formData.discountApply}
+						checked={formData.discount_apply}
 					/>
+
+					{errors?.discountApply && (
+						<div className="invalid-feedback">
+							{errors.discountApply[0]}
+						</div>
+					)}
+					{errors && <div className="valid-feedback">Looks good!</div>}
 					<label className="form-check-label" htmlFor="discountApply">
 						Discount Apply
 					</label>

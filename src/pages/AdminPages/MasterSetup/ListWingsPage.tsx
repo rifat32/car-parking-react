@@ -2,6 +2,7 @@ import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import DebitNotesPageComponent from "../../../components/PageComponent/ExpenseComponent/DebitNotesPageComponent";
 import WingsPageComponent from "../../../components/PageComponent/MasterSetupComponent/WingsPageComponent";
+import { Link } from "react-router-dom";
 
 const ListWingsPage: React.FC = () => {
 	return (
@@ -24,8 +25,16 @@ const ListWingsPage: React.FC = () => {
 					<div className="row">
 						<div className="col-12">
 							<div className="card">
-								<div className="card-body">
-									<h5 className="card-title">All Wings</h5>
+								<div className="card-body ">
+									<div className="d-flex justify-content-between align-items-end">
+										<h5 className="card-title">All Wings</h5>
+										<Link
+											to="/admin/wings/create"
+											className="btn btn-primary">
+											Add Data
+										</Link>
+									</div>
+
 									<WingsPageComponent />
 								</div>
 							</div>

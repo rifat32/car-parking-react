@@ -20,6 +20,7 @@ const AddDebitForm: React.FC = () => {
 		description: "",
 		wing_id: "",
 	});
+	const [errors, setErrors] = useState<any>(null);
 	const [bills, setBills] = useState([]);
 	const [wings, setWings] = useState([]);
 	useEffect(() => {
@@ -78,6 +79,7 @@ const AddDebitForm: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
+		setErrors(null);
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/debit-notes`, { ...formData })
 			.then((response) => {
@@ -87,8 +89,15 @@ const AddDebitForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
-				if (error.response.status === 404) {
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
 					toast.error(error.response.data.message);
+				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
 				}
 			});
 	};
@@ -100,7 +109,13 @@ const AddDebitForm: React.FC = () => {
 					Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="wing_id"
 					name="wing_id"
 					onChange={handleSelect}
@@ -115,13 +130,24 @@ const AddDebitForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+
+				{errors?.wing_id && (
+					<div className="invalid-feedback">{errors.wing_id[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-12">
 				<label htmlFor="bill_id" className="form-label">
 					Bill
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.bill_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="bill_id"
 					name="bill_id"
 					onChange={handleSelect}
@@ -136,6 +162,11 @@ const AddDebitForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+
+				{errors?.bill_id && (
+					<div className="invalid-feedback">{errors.bill_id[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			{/* <div className="col-md-12">
 				<label htmlFor="bill" className="form-label">
@@ -152,16 +183,27 @@ const AddDebitForm: React.FC = () => {
 			</div> */}
 			<div className="col-md-6">
 				<label htmlFor="account_number" className="form-label">
-					Account
+					Account Number
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.account_number
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="account_number"
 					name="account_number"
 					onChange={handleChange}
 					value={formData.account_number}
 				/>
+
+				{errors?.account_number && (
+					<div className="invalid-feedback">{errors.account_number[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="amount" className="form-label">
@@ -169,12 +211,23 @@ const AddDebitForm: React.FC = () => {
 				</label>
 				<input
 					type="number"
-					className="form-control"
+					className={
+						errors
+							? errors.amount
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="amount"
 					name="amount"
 					onChange={handleChange}
 					value={formData.amount}
 				/>
+
+				{errors?.amount && (
+					<div className="invalid-feedback">{errors.amount[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="date" className="form-label">
@@ -182,23 +235,45 @@ const AddDebitForm: React.FC = () => {
 				</label>
 				<input
 					type="date"
-					className="form-control"
+					className={
+						errors
+							? errors.date
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="date"
 					name="date"
 					onChange={handleChange}
 					value={formData.date}
 				/>
+
+				{errors?.date && (
+					<div className="invalid-feedback">{errors.date[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-12">
 				<label htmlFor="description" className="form-label">
 					Description
 				</label>
 				<textarea
-					className="form-control"
+					className={
+						errors
+							? errors.description
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="description"
 					name="description"
 					onChange={handleChangeTextArea}
 					value={formData.description}></textarea>
+
+				{errors?.description && (
+					<div className="invalid-feedback">{errors.description[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="text-center">

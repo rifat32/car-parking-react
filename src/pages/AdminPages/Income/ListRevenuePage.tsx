@@ -1,6 +1,7 @@
 import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import RevenuesPageComponent from "../../../components/PageComponent/IncomeComponent/RevenuesPageComponent";
+import { Link } from "react-router-dom";
 
 const ListRevenuePage: React.FC = () => {
 	return (
@@ -24,7 +25,14 @@ const ListRevenuePage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">All Revenues</h5>
+									<div className="d-flex justify-content-between align-items-end">
+										<h5 className="card-title">All Revenues</h5>
+										<Link
+											to="/admin/revenues/create"
+											className="btn btn-primary">
+											Add Data
+										</Link>
+									</div>
 									<RevenuesPageComponent />
 								</div>
 							</div>

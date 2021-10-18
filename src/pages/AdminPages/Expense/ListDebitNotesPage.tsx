@@ -2,6 +2,7 @@ import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import PaymentsPageComponent from "../../../components/PageComponent/ExpenseComponent/PaymentsPageComponent";
 import DebitNotesPageComponent from "../../../components/PageComponent/ExpenseComponent/DebitNotesPageComponent";
+import { Link } from "react-router-dom";
 
 const ListDebitNotesPage: React.FC = () => {
 	return (
@@ -25,7 +26,14 @@ const ListDebitNotesPage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">All Debit Notes</h5>
+									<div className="d-flex justify-content-between align-items-end">
+										<h5 className="card-title">All Debit Notes</h5>
+										<Link
+											to="/admin/debitNotes/create"
+											className="btn btn-primary">
+											Add Data
+										</Link>
+									</div>
 									<DebitNotesPageComponent />
 								</div>
 							</div>

@@ -57,7 +57,10 @@ const AddRoleForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
-				if (error.response.status === 404) {
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
 					toast.error(error.response.data.message);
 				}
 				if (error.response.status === 422) {

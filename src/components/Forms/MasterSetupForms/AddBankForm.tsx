@@ -14,6 +14,7 @@ const AddBankForm: React.FC = () => {
 		account_number: "",
 		wing_id: "",
 	});
+	const [errors, setErrors] = useState<any>(null);
 
 	const [wings, setWings] = useState([]);
 	useEffect(() => {
@@ -54,6 +55,7 @@ const AddBankForm: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
+		setErrors(null);
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/banks`, { ...formData })
 			.then((response) => {
@@ -63,6 +65,16 @@ const AddBankForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
+					toast.error(error.response.data.message);
+				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
+				}
 			});
 	};
 
@@ -73,7 +85,13 @@ const AddBankForm: React.FC = () => {
 					Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="wing_id"
 					name="wing_id"
 					onChange={handleSelect}
@@ -88,6 +106,10 @@ const AddBankForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+				{errors?.wing_id && (
+					<div className="invalid-feedback">{errors.wing_id[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="name" className="form-label">
@@ -95,12 +117,22 @@ const AddBankForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.name
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="name"
 					name="name"
 					onChange={handleChange}
 					value={formData.name}
 				/>
+				{errors?.name && (
+					<div className="invalid-feedback">{errors.name[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-6">
 				<label htmlFor="account_number" className="form-label">
@@ -108,12 +140,24 @@ const AddBankForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.account_number
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="account_number"
 					name="account_number"
 					onChange={handleChange}
 					value={formData.account_number}
 				/>
+				{errors?.account_number && (
+					<div className="invalid-feedback">
+						{errors.account_number[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="text-center">

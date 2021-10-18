@@ -32,6 +32,7 @@ const AddRequisitionForm: React.FC = () => {
 	const [product, setproduct] = useState(null);
 	const [wings, setWings] = useState([]);
 	const [showAccountField, setShowAccountField] = useState<boolean>(false);
+	const [errors, setErrors] = useState<any>(null);
 	useEffect(() => {
 		loadWings();
 	}, []);
@@ -118,7 +119,7 @@ const AddRequisitionForm: React.FC = () => {
 	// handle submit Function
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-
+		setErrors(null);
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/requisitions`, { ...formData })
 			.then((response) => {
@@ -128,8 +129,15 @@ const AddRequisitionForm: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
-				if (error.response.status === 404) {
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400
+				) {
 					toast.error(error.response.data.message);
+				}
+				if (error.response.status === 422) {
+					toast.error("invalid input");
+					setErrors(error.response.data.errors);
 				}
 			});
 	};
@@ -174,7 +182,13 @@ const AddRequisitionForm: React.FC = () => {
 					Wing
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.wing_id
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="wing_id"
 					name="wing_id"
 					onChange={handleSelect}
@@ -189,6 +203,10 @@ const AddRequisitionForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+				{errors?.wing_id && (
+					<div className="invalid-feedback">{errors.wing_id[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-3">
 				<label htmlFor="supplier" className="form-label">
@@ -196,12 +214,22 @@ const AddRequisitionForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.supplier
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="supplier"
 					name="supplier"
 					onChange={handleChange}
 					value={formData.supplier}
 				/>
+				{errors?.supplier && (
+					<div className="invalid-feedback">{errors.supplier[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-3">
 				<label htmlFor="reference_no" className="form-label">
@@ -209,12 +237,22 @@ const AddRequisitionForm: React.FC = () => {
 				</label>
 				<input
 					type="text"
-					className="form-control"
+					className={
+						errors
+							? errors.reference_no
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="reference_no"
 					name="reference_no"
 					onChange={handleChange}
 					value={formData.reference_no}
 				/>
+				{errors?.reference_no && (
+					<div className="invalid-feedback">{errors.reference_no[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-3">
 				<label htmlFor="purchase_date" className="form-label">
@@ -222,19 +260,35 @@ const AddRequisitionForm: React.FC = () => {
 				</label>
 				<input
 					type="date"
-					className="form-control"
+					className={
+						errors
+							? errors.purchase_date
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="purchase_date"
 					name="purchase_date"
 					onChange={handleChange}
 					value={formData.purchase_date}
 				/>
+				{errors?.purchase_date && (
+					<div className="invalid-feedback">{errors.purchase_date[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-3">
 				<label htmlFor="purchase_status" className="form-label">
 					Purchase Status
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.purchase_status
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="purchase_status"
 					name="purchase_status"
 					onChange={handleSelect}
@@ -249,6 +303,12 @@ const AddRequisitionForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+				{errors?.purchase_status && (
+					<div className="invalid-feedback">
+						{errors.purchase_status[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			<div className="col-md-12">
 				<p>Search Product</p>
@@ -294,7 +354,7 @@ const AddRequisitionForm: React.FC = () => {
 					) : null}
 				</table>
 			</div>
-
+			{/* this field is read only. it has aslo nothing to do with database */}
 			<div className="col-md-3">
 				<label htmlFor="amount" className="form-label">
 					Amount
@@ -316,12 +376,22 @@ const AddRequisitionForm: React.FC = () => {
 				</label>
 				<input
 					type="number"
-					className="form-control"
+					className={
+						errors
+							? errors.quantity
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="quantity"
 					name="quantity"
 					value={formData.quantity}
 					onChange={handleChange}
 				/>
+				{errors?.quantity && (
+					<div className="invalid-feedback">{errors.quantity[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 
 			<div className="col-md-3">
@@ -329,7 +399,13 @@ const AddRequisitionForm: React.FC = () => {
 					Payment Method
 				</label>
 				<select
-					className="form-select"
+					className={
+						errors
+							? errors.payment_method
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
 					id="payment_method"
 					name="payment_method"
 					onChange={handleSelect}
@@ -344,6 +420,12 @@ const AddRequisitionForm: React.FC = () => {
 						</option>
 					))}
 				</select>
+				{errors?.payment_method && (
+					<div className="invalid-feedback">
+						{errors.payment_method[0]}
+					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
 			{showAccountField && (
 				<div className="col-md-6">
@@ -352,12 +434,24 @@ const AddRequisitionForm: React.FC = () => {
 					</label>
 					<input
 						type="string"
-						className="form-control"
+						className={
+							errors
+								? errors.account_number
+									? `form-control is-invalid`
+									: `form-control is-valid`
+								: "form-control"
+						}
 						id="account_number"
 						name="account_number"
 						value={formData.account_number}
 						onChange={handleChange}
 					/>
+					{errors?.account_number && (
+						<div className="invalid-feedback">
+							{errors.account_number[0]}
+						</div>
+					)}
+					{errors && <div className="valid-feedback">Looks good!</div>}
 				</div>
 			)}
 
