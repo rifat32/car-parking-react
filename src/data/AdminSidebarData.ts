@@ -22,6 +22,27 @@ export const adminSideBarData: NavInterface[] = [
 		],
 	},
 	{
+		name: "User Management",
+		list: [
+			{
+				name: "Users",
+				link: "/admin/users",
+			},
+			{
+				name: "Create User",
+				link: "/admin/users/create",
+			},
+			{
+				name: "Roles",
+				link: "/admin/roles",
+			},
+			{
+				name: "Create Role",
+				link: "/admin/roles/create",
+			},
+		],
+	},
+	{
 		name: "Product",
 		list: [
 			{
@@ -118,12 +139,12 @@ export const adminSideBarData: NavInterface[] = [
 		name: "Balance",
 		list: [
 			{
-				name: "Total Balance",
-				link: "/admin/balance",
+				name: "Bank Balance",
+				link: "/admin/bank/balance",
 			},
 			{
 				name: "Balance Transfer",
-				link: "/admin/revenues",
+				link: "/admin/bank/transfer",
 			},
 		],
 	},

@@ -25,7 +25,12 @@ import CreateWingPage from "../pages/AdminPages/MasterSetup/AddWingPage";
 import ListWingsPage from "../pages/AdminPages/MasterSetup/ListWingsPage";
 import CreateBankPage from "../pages/AdminPages/MasterSetup/AddBankPage";
 import ListBankPage from "../pages/AdminPages/MasterSetup/ListBankPage";
-import TotalBalancePage from "../pages/AdminPages/Balance/TotalBalancePage";
+import BankBalancePage from "../pages/AdminPages/Balance/BankBalancePage";
+import BankTransferPage from "../pages/AdminPages/Balance/BankTransferPage";
+import CreateUserPage from "../pages/AdminPages/UserManagement/CreateUserPage";
+import UsersPage from "../pages/AdminPages/UserManagement/UsersPage";
+import CreateRolePage from "../pages/AdminPages/UserManagement/CreateRolePage";
+import RolesPage from "../pages/AdminPages/UserManagement/RolesPage";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -53,6 +58,7 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: Admin,
 	},
+
 	// wings
 	{
 		path: "/admin/wings/create",
@@ -63,6 +69,27 @@ export const RouteData: RouteInterface[] = [
 		path: "/admin/wings",
 		exact: true,
 		component: ListWingsPage,
+	},
+	// users
+	{
+		path: "/admin/users/create",
+		exact: false,
+		component: CreateUserPage,
+	},
+	{
+		path: "/admin/users",
+		exact: true,
+		component: UsersPage,
+	},
+	{
+		path: "/admin/roles/create",
+		exact: false,
+		component: CreateRolePage,
+	},
+	{
+		path: "/admin/roles",
+		exact: true,
+		component: RolesPage,
 	},
 	// banks
 	{
@@ -168,8 +195,13 @@ export const RouteData: RouteInterface[] = [
 	},
 	// Balance
 	{
-		path: "/admin/balance",
+		path: "/admin/bank/balance",
 		exact: true,
-		component: TotalBalancePage,
+		component: BankBalancePage,
+	},
+	{
+		path: "/admin/bank/transfer",
+		exact: false,
+		component: BankTransferPage,
 	},
 ];

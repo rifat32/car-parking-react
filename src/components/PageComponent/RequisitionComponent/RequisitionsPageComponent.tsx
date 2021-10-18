@@ -9,10 +9,10 @@ const RequisitionsPageComponent: React.FC = () => {
 		`${BACKENDAPI}/v1.0/requisitions`
 	);
 	useEffect(() => {
-		loadProducts();
+		loadRequisitions();
 	}, []);
 	// pagination required
-	const loadProducts = () => {
+	const loadRequisitions = () => {
 		apiClient()
 			.get(currentLink)
 			.then((response: any) => {

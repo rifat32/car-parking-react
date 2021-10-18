@@ -1,22 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
-import { BACKENDAPI } from "../../../data/config";
-import { apiClient } from "../../../utils/apiClient";
+
 import BalancePageComponent from "../../../components/PageComponent/BalanceComponent/BalancePageComponent";
 
-const TotalBalancePage: React.FC = () => {
-	const [total, setTotal] = useState(0);
-	useEffect(() => {
-		apiClient()
-			.get(`${BACKENDAPI}/v1.0/balance`)
-			.then((response: any) => {
-				console.log(response);
-				setTotal(response.data.balance);
-			})
-			.catch((error) => {
-				console.log(error.response);
-			});
-	});
+const BankBalancePage: React.FC = () => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
@@ -50,4 +37,4 @@ const TotalBalancePage: React.FC = () => {
 	);
 };
 
-export default TotalBalancePage;
+export default BankBalancePage;
