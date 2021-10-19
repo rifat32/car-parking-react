@@ -20,7 +20,7 @@ const RequisitionsPageComponent: React.FC = () => {
 				setRequisitions(response.data.requisitions.data);
 			})
 			.catch((error) => {
-				console.log(error.response);
+				console.log(error.response, "ggg");
 			});
 	};
 	const moveToParchase = (id: string | number) => {
@@ -38,6 +38,13 @@ const RequisitionsPageComponent: React.FC = () => {
 			})
 			.catch((error) => {
 				console.log(error.response);
+				if (
+					error.response.status === 404 ||
+					error.response.status === 400 ||
+					error.response.status === 403
+				) {
+					toast.error(error.response.data.message);
+				}
 			});
 	};
 	return (

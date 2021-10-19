@@ -1,8 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { BACKENDAPI } from "../data/config";
 import { apiClient } from "../utils/apiClient";
 const defaultContext = {
 	user: null,
+	permissions: ["test"],
+	roles: [],
 	userLoading: true,
 	setUserFunction: (toogle: boolean): void => {},
 	setUserLoadingFunction: (user: any): void => {},
@@ -18,9 +21,29 @@ const defaultContext = {
 const AppContext = createContext(defaultContext);
 const AppProvider: React.FC = ({ children }) => {
 	const [user, setUser] = useState<any>(null);
+	const [roles, setRoles] = useState<any>([]);
+	const [permissions, setPermissions] = useState<any>([]);
 	const [userLoading, setUserLoading] = useState(true);
-	const setUserFunction = (user: any) => {
-		setUser(user);
+	const setUserFunction = (data: any) => {
+		loadUser();
+	};
+	const loadUser = () => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/user`)
+			.then((response: any) => {
+				console.log(response);
+				setUser(response.data.user);
+				setPermissions(response.data.permissions);
+				setRoles(response.data.roles);
+				setUserLoading(false);
+			})
+			.catch((err) => {
+				console.log(err.response);
+				if (err.response) {
+				}
+				logoutFunction();
+				setUserLoading(false);
+			});
 	};
 	const setUserLoadingFunction = (toogle: boolean) => {
 		setUserLoading(toogle);
@@ -44,19 +67,7 @@ const AppProvider: React.FC = ({ children }) => {
 	};
 
 	useEffect(() => {
-		apiClient()
-			.get(`${BACKENDAPI}/v1.0/user`)
-			.then((response) => {
-				console.log(response);
-				setUser(response.data);
-				setUserLoading(false);
-			})
-			.catch((err) => {
-				console.log(err.response);
-				if (err.response) {
-				}
-				setUserLoading(false);
-			});
+		loadUser();
 	}, []);
 	const logoutFunction = () => {
 		apiClient()
@@ -72,7 +83,9 @@ const AppProvider: React.FC = ({ children }) => {
 			});
 
 		setUser(null);
-		localStorage.removeItem("token");
+		setPermissions([]);
+		setRoles([]);
+		localStorage.clear();
 	};
 	return (
 		<AppContext.Provider
@@ -89,6 +102,8 @@ const AppProvider: React.FC = ({ children }) => {
 				logoutFunction,
 				userLoading,
 				setUserLoadingFunction,
+				roles,
+				permissions,
 			}}>
 			{children}
 		</AppContext.Provider>

@@ -261,13 +261,13 @@ const AddBillForm: React.FC = () => {
 						checked={formData.discount_apply}
 					/>
 
-					{errors?.discountApply && (
+					{errors?.discount_apply && (
 						<div className="invalid-feedback">
-							{errors.discountApply[0]}
+							{errors.discount_apply[0]}
 						</div>
 					)}
 					{errors && <div className="valid-feedback">Looks good!</div>}
-					<label className="form-check-label" htmlFor="discountApply">
+					<label className="form-check-label" htmlFor="discount_apply">
 						Discount Apply
 					</label>
 				</div>

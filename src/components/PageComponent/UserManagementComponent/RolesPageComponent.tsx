@@ -5,17 +5,16 @@ import { toast } from "react-toastify";
 
 const RolesPageComponent: React.FC = () => {
 	const [roles, setRoles] = useState([]);
-	const [currentLink, setCurrentLink] = useState(`${BACKENDAPI}/v1.0/roles`);
 	useEffect(() => {
 		loadRoles();
 	}, []);
-	// pagination required
+
 	const loadRoles = () => {
 		apiClient()
-			.get(currentLink)
+			.get(`${BACKENDAPI}/v1.0/roles/all`)
 			.then((response: any) => {
 				console.log(response);
-				setRoles(response.data.roles.data);
+				setRoles(response.data.roles);
 			})
 			.catch((error) => {
 				console.log(error.response);

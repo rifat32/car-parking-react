@@ -8,7 +8,7 @@ interface FormData {
 	email: string;
 	password: string;
 	password_confirmation: string;
-	role_id: string;
+	role_name: string;
 }
 const AddUserForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
@@ -16,23 +16,24 @@ const AddUserForm: React.FC = () => {
 		email: "",
 		password: "",
 		password_confirmation: "",
-		role_id: "",
+		role_name: "",
 	});
 	const [errors, setErrors] = useState<any>(null);
+	const [roles, setRoles] = useState([]);
 	useEffect(() => {
-		// loadWings();
+		loadWings();
 	}, []);
-	// const loadWings = () => {
-	// 	apiClient()
-	// 		.get(`${BACKENDAPI}/v1.0/wings/all`)
-	// 		.then((response: any) => {
-	// 			console.log(response);
-	// 			setWings(response.data.wings);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error.response);
-	// 		});
-	// };
+	const loadWings = () => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/roles/all`)
+			.then((response: any) => {
+				console.log(response);
+				setRoles(response.data.roles);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
 
 	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +55,7 @@ const AddUserForm: React.FC = () => {
 			email: "",
 			password: "",
 			password_confirmation: "",
-			role_id: "",
+			role_name: "",
 		});
 	};
 	// handle submit Function
@@ -86,27 +87,6 @@ const AddUserForm: React.FC = () => {
 
 	return (
 		<form className="row g-3">
-			{/* <div className="col-md-12">
-				<label htmlFor="wing_id" className="form-label">
-					Wing
-				</label>
-				<select
-					className="form-select"
-					id="wing_id"
-					name="wing_id"
-					onChange={handleSelect}
-					value={formData.wing_id}>
-					<option value="">Please Select</option>
-					{wings.map((el: any, index) => (
-						<option
-							key={index}
-							value={el.id}
-							style={{ textTransform: "uppercase" }}>
-							{el.name}
-						</option>
-					))}
-				</select>
-			</div> */}
 			<div className="col-12">
 				<label htmlFor="yourPassword" className="form-label">
 					Name
@@ -207,6 +187,37 @@ const AddUserForm: React.FC = () => {
 					<div className="invalid-feedback">
 						{errors.password_confirmation[0]}
 					</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
+			</div>
+			<div className="col-md-12">
+				<label htmlFor="role_name" className="form-label">
+					Roles
+				</label>
+				<select
+					className={
+						errors
+							? errors.role_name
+								? `form-select is-invalid`
+								: `form-select is-valid`
+							: "form-select"
+					}
+					id="role_name"
+					name="role_name"
+					onChange={handleSelect}
+					value={formData.role_name}>
+					<option value="">Please Select</option>
+					{roles.map((el: any, index) => (
+						<option
+							key={index}
+							value={el.name}
+							style={{ textTransform: "uppercase" }}>
+							{el.name}
+						</option>
+					))}
+				</select>
+				{errors?.role_name && (
+					<div className="invalid-feedback">{errors.role_name[0]}</div>
 				)}
 				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>

@@ -30,6 +30,7 @@ const UsersPageComponent: React.FC = () => {
 						<th scope="col">Id</th>
 						<th scope="col">Name</th>
 						<th scope="col">email</th>
+						<th scope="col">roles</th>
 					</tr>
 				</thead>
 				{users.length ? (
@@ -40,6 +41,15 @@ const UsersPageComponent: React.FC = () => {
 									<td>{el.id}</td>
 									<td>{el.name}</td>
 									<td>{el.email}</td>
+									{el.roles.length ? (
+										<td>
+											{el.roles.map((el2: any) => {
+												return el2.name;
+											})}
+										</td>
+									) : (
+										<td></td>
+									)}
 								</tr>
 							);
 						})}

@@ -11,20 +11,32 @@ const AddRoleForm: React.FC = () => {
 		name: "",
 	});
 	const [errors, setErrors] = useState<any>(null);
+
+	const [roles, setRoles] = useState<any>([]);
 	useEffect(() => {
-		// loadWings();
+		loadRoles();
 	}, []);
-	// const loadWings = () => {
-	// 	apiClient()
-	// 		.get(`${BACKENDAPI}/v1.0/wings/all`)
-	// 		.then((response: any) => {
-	// 			console.log(response);
-	// 			setWings(response.data.wings);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error.response);
-	// 		});
-	// };
+
+	const loadRoles = () => {
+		apiClient()
+			.get(`${BACKENDAPI}/v1.0/roles/all`)
+			.then((response: any) => {
+				console.log(response);
+				const roles = response.data.roles;
+				const updatedRoles = roles.map((el: any) => {
+					el.permissions = el.permissions.map((el2: any) => {
+						el2.checked = false;
+						return el2;
+					});
+					return el;
+				});
+				setRoles(updatedRoles);
+				console.log(updatedRoles);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
 
 	// handle Change Function
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +48,46 @@ const AddRoleForm: React.FC = () => {
 		// if (e.target.name === "wing_id") {
 		// 	loadBills(e.target.value);
 		// }
+	};
+	const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+		// setFormData({ ...formData, [e.target.name]: e.target.checked });
+
+		if (e.target.name === "permission[]") {
+			const pArray = e.target.value.split("_");
+			const tempRoles = roles.map((el: any) => {
+				if (el.id === parseInt(pArray[1])) {
+					el.permissions = el.permissions.map((el2: any) => {
+						if (el2.id === parseInt(pArray[2])) {
+							el2.checked = e.target.checked;
+							console.log(e.target.checked, "hhhh");
+							return el2;
+						}
+						return el2;
+					});
+
+					return el;
+				}
+				return el;
+			});
+
+			setRoles(tempRoles);
+		}
+
+		if (e.target.name === "role[]") {
+			const rArray = e.target.value.split("_");
+			const tempRoles = roles.map((el: any) => {
+				if (el.id === parseInt(rArray[1])) {
+					el.permissions = el.permissions.map((el2: any) => {
+						el2.checked = e.target.checked;
+						return el2;
+					});
+
+					return el;
+				}
+				return el;
+			});
+			setRoles(tempRoles);
+		}
 	};
 
 	const resetFunction = () => {
@@ -73,7 +125,7 @@ const AddRoleForm: React.FC = () => {
 	return (
 		<form className="row g-3">
 			<div className="col-12">
-				<label htmlFor="yourPassword" className="form-label">
+				<label htmlFor="name" className="form-label">
 					Name
 				</label>
 				<input
@@ -86,7 +138,7 @@ const AddRoleForm: React.FC = () => {
 								: `form-control is-valid`
 							: "form-control"
 					}
-					id="yourPassword"
+					id="name"
 					required
 					onChange={handleChange}
 					value={formData.name}
@@ -95,6 +147,61 @@ const AddRoleForm: React.FC = () => {
 					<div className="invalid-feedback">{errors.name[0]}</div>
 				)}
 				{errors && <div className="valid-feedback">Looks good!</div>}
+			</div>
+			<p>Permissions:</p>
+			<div className="row">
+				<div className="col-10">
+					{roles.length &&
+						roles.map((el: any) => {
+							return (
+								<div className="row" key={el.id}>
+									<div className="col-4">{el.name}</div>
+									<div className="col-4">
+										<div className="form-check">
+											<input
+												className="form-check-input"
+												type="checkbox"
+												id={`role_${el.id}`}
+												name="role[]"
+												value={`role_${el.id}`}
+												onChange={handleChecked}
+											/>
+
+											<label
+												className="form-check-label"
+												htmlFor={`role_${el.id}`}>
+												select all
+											</label>
+										</div>
+									</div>
+									<div className="col-4">
+										{el.permissions.length &&
+											el.permissions.map((el2: any) => {
+												return (
+													<div className="form-check" key={el2.id}>
+														<input
+															className="form-check-input"
+															type="checkbox"
+															id={`permission_${el2.id}`}
+															name="permission[]"
+															value={`permission_${el.id}_${el2.id}`}
+															onChange={handleChecked}
+															checked={el2.checked}
+														/>
+
+														<label
+															className="form-check-label"
+															htmlFor={`permission_${el2.id}`}>
+															{el2.name}
+														</label>
+													</div>
+												);
+											})}
+									</div>
+								</div>
+							);
+						})}
+				</div>
 			</div>
 
 			<div className="text-center">

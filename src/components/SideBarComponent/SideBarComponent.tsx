@@ -1,44 +1,83 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../context";
 import { adminSideBarData } from "../../data/AdminSidebarData";
+import { NavInterface } from "../../interfaces/AdminSideBarInterface";
 
 const SideBarComponent = () => {
+	const { permissions, roles, user } = useContext(AppContext);
+	const [sideBar, setSideBar] = useState<NavInterface[]>([]);
+	// calculate sidebar with permission
+	const calculateSidebar = () => {
+		// loop over sidebars
+
+		const tempSidebar = adminSideBarData.map((el) => el);
+
+		const Sidebar = tempSidebar.map((el) => {
+			const tempLists = el.list.filter((list) => {
+				// if no permission is required
+				if (!list.permissions.length) {
+					return true;
+				}
+				// if user has any permission then return boolean
+				const checkPermission = list.permissions.some(
+					(permission: string) => {
+						return permissions.includes(permission);
+					}
+				);
+
+				return checkPermission;
+			});
+			// end of filter list inside sidebar
+
+			// set filtered list and return
+			// I don't know why el.list is mutating the original array. but el.vlist make verified list
+			el.vlist = tempLists;
+
+			return el;
+		});
+		// end loop over sidebars
+		setSideBar(Sidebar);
+	};
+	useEffect(() => {
+		calculateSidebar();
+	}, [user]);
+
 	return (
 		<>
 			<aside id="sidebar" className="sidebar">
 				<ul className="sidebar-nav" id="sidebar-nav">
-					{adminSideBarData.map((nav, navIndex) => {
-						return (
-							<li key={navIndex} className="nav-item">
-								<a
-									className="nav-link collapsed"
-									data-bs-target={`#nav-list-${navIndex}`}
-									data-bs-toggle="collapse"
-									href="#">
-									<i className="bi bi-gem" />
-									<span>{nav.name}</span>
-									<i className="bi bi-chevron-down ms-auto" />
-								</a>
-								<ul
-									id={`nav-list-${navIndex}`}
-									className="nav-content collapse"
-									data-bs-parent="#sidebar-nav">
-									{nav.list
-										? nav.list.map((navList, navListIndex) => {
-												return (
-													<li key={navListIndex}>
-														<Link to={navList.link}>
-															<i className="bi bi-circle" />
-															<span>{navList.name}</span>
-														</Link>
-													</li>
-												);
-										  })
-										: null}
-								</ul>
-							</li>
-						);
-					})}
+					{sideBar.length &&
+						sideBar.map((nav, navIndex) => {
+							return nav.vlist?.length ? (
+								<li key={navIndex} className="nav-item">
+									<a
+										className="nav-link collapsed"
+										data-bs-target={`#nav-list-${navIndex}`}
+										data-bs-toggle="collapse"
+										href="#">
+										<i className="bi bi-gem" />
+										<span>{nav.name}</span>
+										<i className="bi bi-chevron-down ms-auto" />
+									</a>
+									<ul
+										id={`nav-list-${navIndex}`}
+										className="nav-content collapse"
+										data-bs-parent="#sidebar-nav">
+										{nav.vlist.map((navList, navListIndex) => {
+											return (
+												<li key={navListIndex}>
+													<Link to={navList.link}>
+														<i className="bi bi-circle" />
+														<span>{navList.name}</span>
+													</Link>
+												</li>
+											);
+										})}
+									</ul>
+								</li>
+							) : null;
+						})}
 
 					{/* <li className="nav-item">
 						<a className="nav-link" href="index.html">
