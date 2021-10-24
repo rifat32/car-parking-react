@@ -1,55 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { AppContext } from "../../context";
+
 import { adminSideBarData } from "../../data/AdminSidebarData";
-import { NavInterface } from "../../interfaces/AdminSideBarInterface";
 
 const SideBarComponent = () => {
-	const { permissions, roles, user } = useContext(AppContext);
-	const [sideBar, setSideBar] = useState<NavInterface[]>([]);
-	// calculate sidebar with permission
-	const calculateSidebar = () => {
-		// loop over sidebars
-
-		const tempSidebar = adminSideBarData.map((el) => el);
-
-		const Sidebar = tempSidebar.map((el) => {
-			const tempLists = el.list.filter((list) => {
-				// if no permission is required
-				if (!list.permissions.length) {
-					return true;
-				}
-				// if user has any permission then return boolean
-				const checkPermission = list.permissions.some(
-					(permission: string) => {
-						return permissions.includes(permission);
-					}
-				);
-
-				return checkPermission;
-			});
-			// end of filter list inside sidebar
-
-			// set filtered list and return
-			// I don't know why el.list is mutating the original array. but el.vlist make verified list
-			el.vlist = tempLists;
-
-			return el;
-		});
-		// end loop over sidebars
-		setSideBar(Sidebar);
-	};
-	useEffect(() => {
-		calculateSidebar();
-	}, [user]);
-
 	return (
 		<>
 			<aside id="sidebar" className="sidebar">
 				<ul className="sidebar-nav" id="sidebar-nav">
-					{sideBar.length &&
-						sideBar.map((nav, navIndex) => {
-							return nav.vlist?.length ? (
+					{adminSideBarData.length &&
+						adminSideBarData.map((nav, navIndex) => {
+							return nav.list?.length ? (
 								<li key={navIndex} className="nav-item">
 									<a
 										className="nav-link collapsed"
@@ -64,7 +25,7 @@ const SideBarComponent = () => {
 										id={`nav-list-${navIndex}`}
 										className="nav-content collapse"
 										data-bs-parent="#sidebar-nav">
-										{nav.vlist.map((navList, navListIndex) => {
+										{nav.list.map((navList, navListIndex) => {
 											return (
 												<li key={navListIndex}>
 													<Link to={navList.link}>

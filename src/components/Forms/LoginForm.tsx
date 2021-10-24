@@ -27,12 +27,14 @@ const LoginForm: React.FC = (props: any) => {
 		setLoading(true);
 		setErrors([]);
 		setUserLoadingFunction(true);
+
 		axios
-			.post(`${BACKEND}/api/v1.0/login`, {
+			.post(`${BACKEND}/api/login`, {
 				...state,
 			})
 			.then((response: any) => {
 				console.log(response.data);
+
 				localStorage.setItem("token", response.data.token);
 				toast.success("Login Successfull.");
 				setUserFunction(response.data.data);
@@ -40,6 +42,8 @@ const LoginForm: React.FC = (props: any) => {
 				setUserLoadingFunction(false);
 			})
 			.catch((err) => {
+				console.log(err.response);
+
 				setUserLoadingFunction(false);
 				console.log("err", err.request);
 

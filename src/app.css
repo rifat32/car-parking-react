@@ -1,18 +1,9 @@
-.dropdown {
-	position: relative;
-	display: block;
+.card {
+	padding-bottom: 10rem;
 }
-
-.dropdown-content {
-	display: none;
-	position: absolute;
-
-	z-index: 1;
+.action {
+	background: #e6e0d1;
 }
-
-.dropdown:hover .dropdown-content {
-	display: block;
-}
-.d_btn {
-	border-bottom: 0.1rem solid black;
+a {
+	cursor: pointer;
 }

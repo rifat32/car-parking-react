@@ -32,7 +32,7 @@ const RegisterForm: React.FC = (props: any) => {
 		setErrors([]);
 		setUserLoadingFunction(true);
 		axios
-			.post(`${BACKEND}/api/v1.0/register`, {
+			.post(`${BACKEND}/api/register`, {
 				...state,
 			})
 			.then((response: any) => {
@@ -55,7 +55,7 @@ const RegisterForm: React.FC = (props: any) => {
 	};
 	useEffect(() => {
 		if (user) {
-			props.history.push("/");
+			props.history.push("/admin");
 		}
 	}, [user]);
 

@@ -5,21 +5,17 @@ import {
 	Route,
 	RouteComponentProps,
 } from "react-router-dom";
-import HomePage from "./pages/HomePage/index";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage/index";
+
 import { ToastContainer } from "react-toastify";
-import { AppContext } from "./context";
+
 import "react-toastify/dist/ReactToastify.css";
 import HeaderComponent from "./components/HeaderComponent/HeaderComponent";
 import SideBarComponent from "./components/SideBarComponent";
 import FooterComponent from "./components/FooterComponent/FooterComponent";
-import Admin from "./pages/AdminPages/DemoAdmin";
-import AddProductPage from "./pages/AdminPages/Product/AddProductPage";
-import BrandPage from "./pages/AdminPages/Product/Brand/BrandPage";
-import ListProductPage from "./pages/AdminPages/Product/ListProductPage";
+
 import { RouteData } from "./data/RoutesData";
 import "./app.css";
+import { AppContext } from "./context";
 
 const App: React.FC = () => {
 	const {
@@ -28,7 +24,6 @@ const App: React.FC = () => {
 		showSideBarComponent,
 		showFooterComponent,
 	} = useContext(AppContext);
-
 	return (
 		<Router>
 			{showHeaderComponent && <HeaderComponent />}
@@ -46,27 +41,6 @@ const App: React.FC = () => {
 						/>
 					);
 				})}
-				{/* <Route path="/" exact>
-					<HomePage />
-				</Route> */}
-				{/* <Route path="/login">
-					<LoginPage />
-				</Route> */}
-				{/* <Route path="/register">
-					<RegisterPage />
-				</Route> */}
-				{/* <Route path="/admin" exact={true}>
-					<Admin />
-				</Route> */}
-				{/* <Route path="/admin/products/create">
-					<AddProductPage />
-				</Route> */}
-				{/* <Route path="/admin/products" exact={true}>
-					<ListProductPage />
-				</Route> */}
-				{/* <Route path="/admin/brands">
-					<BrandPage />
-				</Route> */}
 			</Switch>
 			{showFooterComponent && <FooterComponent />}
 
