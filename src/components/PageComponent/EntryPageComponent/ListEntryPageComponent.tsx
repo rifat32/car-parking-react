@@ -6,6 +6,7 @@ import CustomModal from "../../Modal/Modal";
 import { toast } from "react-toastify";
 import AddEntryForm from "../../Forms/EntryForm/AddEntryForm";
 import { ErrMessage } from "../../../utils/ErrorMessage";
+import { printInvoice } from "../../../utils/PrintInvoice";
 
 const EntryListTableComponent: React.FC<{ car_out: boolean }> = ({
 	car_out,
@@ -84,6 +85,7 @@ const EntryListTableComponent: React.FC<{ car_out: boolean }> = ({
 				})
 				.then((response: any) => {
 					console.log(response.data);
+					printInvoice(response.data.invoice);
 					removefromTable(id, "Exit Successfull");
 				})
 				.catch((error) => {

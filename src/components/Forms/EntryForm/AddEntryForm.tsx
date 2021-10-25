@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BACKENDAPI } from "../../../data/config";
 import { toast } from "react-toastify";
 import { UpdateFormInterface } from "../../../interfaces/UpdateFormInterfaced";
 import { apiClient } from "../../../utils/apiClient";
 import { ErrMessage } from "../../../utils/ErrorMessage";
+import { printInvoice } from "../../../utils/PrintInvoice";
 
 interface FormData {
 	name: string;
@@ -31,6 +32,7 @@ const AddEntryForm: React.FC<UpdateFormInterface> = (props) => {
 	};
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+
 		setErrors(null);
 		if (props.type === "update") {
 			updateData();
@@ -38,12 +40,15 @@ const AddEntryForm: React.FC<UpdateFormInterface> = (props) => {
 			createData();
 		}
 	};
+
 	const createData = () => {
 		apiClient()
 			.post(`${BACKENDAPI}/entries`, { ...formData })
 			.then((response: any) => {
-				console.log(response);
+				console.log(response.data);
 				toast.success("data saved");
+				printInvoice(response.data.invoice);
+
 				// props.upsertDataStates(response.data);
 				// props.showModal(false);
 				resetFunction();
