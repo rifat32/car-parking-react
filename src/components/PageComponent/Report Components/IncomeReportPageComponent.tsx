@@ -35,7 +35,6 @@ const IncomeReportComponent: React.FC = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(formData);
-
 		setErrors(null);
 		setResult(null);
 

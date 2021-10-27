@@ -95,6 +95,19 @@ const EntryListTableComponent: React.FC<{ car_out: boolean }> = ({
 				});
 		}
 	};
+	const getInvoice = (id: number) => {
+		apiClient()
+			.get(`${BACKENDAPI}/invoice/${id}`)
+			.then((response: any) => {
+				console.log(response.data);
+				printInvoice(response.data.invoice);
+			})
+			.catch((error) => {
+				console.log(error.response);
+
+				ErrMessage(error.response.status, error.response.data.message);
+			});
+	};
 	const AddDataStates = (addedData: any) => {
 		const tempDatas = [addedData, ...data];
 		setData(tempDatas);
@@ -194,6 +207,21 @@ const EntryListTableComponent: React.FC<{ car_out: boolean }> = ({
 														</li>
 													</>
 												)}
+												<li>
+													<hr className="dropdown-divider" />
+												</li>
+												<li>
+													<a
+														onClick={() => {
+															getInvoice(el.id);
+														}}
+														className="dropdown-item">
+														get invoice
+													</a>
+												</li>
+												<li>
+													<hr className="dropdown-divider" />
+												</li>
 
 												<li>
 													<a
@@ -235,7 +263,8 @@ const EntryListTableComponent: React.FC<{ car_out: boolean }> = ({
 					"No data to show"
 				)}
 			</div>
-			{/* update modal */}
+			{/* Add modal  */}
+			{/* this feature has removed */}
 			<CustomModal
 				isOpen={modalAddIsOpen}
 				showModal={showAddModal}

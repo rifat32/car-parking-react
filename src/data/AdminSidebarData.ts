@@ -1,6 +1,15 @@
 import { NavInterface } from "../interfaces/AdminSideBarInterface";
 export const adminSideBarData: NavInterface[] = [
 	{
+		name: "Dashboard",
+		list: [
+			{
+				name: "Dashboard",
+				link: "/dashboard",
+			},
+		],
+	},
+	{
 		name: "Welcome",
 		list: [
 			{
@@ -15,10 +24,6 @@ export const adminSideBarData: NavInterface[] = [
 				name: "Car Out",
 				link: "/car-out",
 			},
-			// {
-			// 	name: "Entry",
-			// 	link: "/entries",
-			// },
 		],
 	},
 	{

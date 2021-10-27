@@ -7,13 +7,13 @@ import {
 } from "react-router-dom";
 
 import { ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
+
 import HeaderComponent from "./components/HeaderComponent/HeaderComponent";
 import SideBarComponent from "./components/SideBarComponent";
 import FooterComponent from "./components/FooterComponent/FooterComponent";
 
-import { RouteData } from "./data/RoutesData";
+import { RouteData } from "./Routes";
 import "./app.css";
 import { AppContext } from "./context";
 
