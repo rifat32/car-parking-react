@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BACKENDAPI } from "../../../data/config";
+import { BACKENDAPI } from "../../../config";
 import { toast } from "react-toastify";
 import { UpdateFormInterface } from "../../../interfaces/UpdateFormInterfaced";
 import { apiClient } from "../../../utils/apiClient";

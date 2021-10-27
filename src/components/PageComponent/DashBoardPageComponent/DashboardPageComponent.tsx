@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiClient } from "../../../utils/apiClient";
-import { BACKENDAPI } from "../../../data/config";
+import { BACKENDAPI } from "../../../config";
 import VerticalBarGraph from "@chartiful/react-vertical-bar-graph";
 const DashboardPageComponent = () => {
 	const [people, setPeople] = useState<any>([]);
@@ -80,7 +80,7 @@ const DashboardPageComponent = () => {
 					/>
 					<h5>This month income</h5>
 					<div
-						className="bg-dark my-5"
+						className="bg-primary my-5"
 						style={{ height: "1rem", width: "100%" }}></div>
 
 					<VerticalBarGraph
