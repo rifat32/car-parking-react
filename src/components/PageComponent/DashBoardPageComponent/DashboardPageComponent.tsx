@@ -13,7 +13,9 @@ const DashboardPageComponent = () => {
 		const tempDate: any = [];
 		const tempBill: any = [];
 		data.reverse().map((el: any) => {
-			tempBill.push(el.bill.toFixed(2));
+			// console.log(parseFloat(el.bill.toFixed(2)));
+
+			tempBill.push(parseFloat(el.bill).toFixed(2));
 			tempPeople.push(el.people);
 			const date = new Date(el.date);
 			tempDate.push(date.getDate());
@@ -31,6 +33,7 @@ const DashboardPageComponent = () => {
 				calculateData(response.data);
 			})
 			.catch((err) => {
+				console.log(err);
 				console.log(err.response);
 			});
 	};
